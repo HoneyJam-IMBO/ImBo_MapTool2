@@ -26,6 +26,7 @@ bool CInputManager::Begin() {
 }
 
 bool CInputManager::End() {
+	ReleseInstance();
 	return true;
 }
 

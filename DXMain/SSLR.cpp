@@ -30,10 +30,17 @@ bool CSSLR::Begin(){
 
 bool CSSLR::End(){
 	m_pOcclusionCB->End();
+	delete m_pOcclusionCB;
+	m_pOcclusionCB = nullptr;
+
 	m_pRayTraceCB->End();
+	delete m_pRayTraceCB;
+	m_pRayTraceCB = nullptr;
+
 	m_pAdditiveBlendState->Release();
 	m_pMakeOcclussionComputeShader->End();
 	delete m_pMakeOcclussionComputeShader;
+	m_pMakeOcclussionComputeShader = nullptr;
 
 	return true;
 }
@@ -241,17 +248,22 @@ void CSSLR::ReleaseBuffer() {
 	m_pOcclusionTex = nullptr;
 	if(m_pOcclusionUAV) m_pOcclusionUAV->Release();
 	m_pOcclusionUAV = nullptr;
-	if(m_pOcclusionSRV)m_pOcclusionSRV->Release();
+	//if(m_pOcclusionSRV)m_pOcclusionSRV->Release();
 	m_pOcclusionSRV = nullptr;
 	
 	if(m_pLightRaysTex)m_pLightRaysTex->Release();
 	m_pLightRaysTex = nullptr;
 	if(m_pLightRaysRTV)m_pLightRaysRTV->Release();
 	m_pLightRaysRTV = nullptr;
-	if(m_pLightRaysSRV)m_pLightRaysSRV->Release();
+	//if(m_pLightRaysSRV)m_pLightRaysSRV->Release();
 	m_pLightRaysSRV = nullptr;
 	
-	//if(m_pOcclussionTexture) m_pOcclussionTexture->End();
+	if (m_pLightRaysTexture) m_pLightRaysTexture->End();
+	delete m_pLightRaysTexture;
+	m_pLightRaysTexture = nullptr;
+	if(m_pOcclussionTexture) m_pOcclussionTexture->End();
+	delete m_pOcclussionTexture;
+	m_pOcclussionTexture = nullptr;
 }
 
 

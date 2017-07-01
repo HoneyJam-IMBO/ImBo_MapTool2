@@ -99,7 +99,9 @@ bool CShadow::End()
 
 	if (m_pCamera) {
 		m_pCamera->End();
+		delete m_pCamera;
 	}
+	m_pCamera = nullptr;
 	//static shadow map clean
 	//if (m_pShadowTexture){ 
 	//	m_pShadowTexture->CleanShaderState();

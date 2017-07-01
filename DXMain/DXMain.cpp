@@ -3,6 +3,7 @@
 // 대상 플랫폼 버전 : 10.0.10586.0 기준 작성(하위버전에서는 단계를 내려야 합니다)
 
 #include "stdafx.h"
+#include <vld.h>
 
 #include "DirectXFramework.h"
 #include "SceneMain.h"

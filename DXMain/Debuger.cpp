@@ -104,7 +104,7 @@ bool CDebuger::End() {
 		m_qDebugTextureData.pop();
 	}
 	
-
+	ReleseInstance();
 	return true;
 }
 void CDebuger::RegistCoordinateSys(FXMMATRIX mtx) {

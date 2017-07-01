@@ -269,6 +269,7 @@ void CSpaceContainer::SaveObjectInfos(){
 }
 
 void CSpaceContainer::LoadObjectInfos(){
+//	ClearAllObjects();
 	UINT nObject = IMPORTER->ReadUINT();
 	for (int i = 0; i < nObject; ++i) {
 		tag t = (tag)IMPORTER->ReadUINT();

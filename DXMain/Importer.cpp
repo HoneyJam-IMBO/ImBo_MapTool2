@@ -10,7 +10,6 @@ bool CImporter::Begin(string outputPath) {
 bool CImporter::End() {
 	delete m_pFileImporter;
 	m_pFileImporter = nullptr;
-
 	return true;
 }
 

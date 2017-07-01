@@ -3,3 +3,11 @@
 ################################################################################
 
 *.opendb
+*.db
+/x64/Debug
+/ipch/DXMAIN-44fe27a
+/DXMain/x64/Debug
+/.vs/DX_2016_Study/v14
+/DXMain/x64/Release
+/x64/Release
+/scene resource 변경점.PNG

@@ -14,7 +14,11 @@ bool CPostProcessingFinalPass::Begin() {
 
 bool CPostProcessingFinalPass::End() {
 	m_mRenderContainer.clear();
-	if (m_pFinalPassCB) m_pFinalPassCB->End();
+	if (m_pFinalPassCB) {
+		m_pFinalPassCB->End();
+		delete m_pFinalPassCB;
+	}
+	m_pFinalPassCB = nullptr;
 
 	return true;
 }

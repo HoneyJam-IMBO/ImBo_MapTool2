@@ -22,6 +22,8 @@ bool CTwBarManager::End() {
 	TwTerminate();
 
 	m_mTwBar.clear();
+
+	ReleseInstance();
 	return true;
 }
 

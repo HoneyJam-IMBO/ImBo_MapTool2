@@ -30,10 +30,14 @@ bool CStempManager::End(){
 
 	if (m_pPicposRenderInfo) delete m_pPicposRenderInfo;
 	m_pPicposRenderInfo = nullptr;
-	if (m_pPicposRenderInfoBuffer) m_pPicposRenderInfoBuffer->End();
+	if (m_pPicposRenderInfoBuffer) {
+		m_pPicposRenderInfoBuffer->End();
+		delete m_pPicposRenderInfoBuffer;
+	}
 	m_pPicposRenderInfoBuffer = nullptr;
 
 	for (auto pStemp : m_vStemp) {
+		pStemp->End();
 		delete pStemp;
 	}
 	m_vStemp.clear();

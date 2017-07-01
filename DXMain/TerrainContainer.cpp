@@ -108,11 +108,20 @@ bool CTerrainContainer::End() {
 	m_pHeightData = nullptr;
 	if (m_pNormalData) delete[] m_pNormalData;
 	m_pNormalData = nullptr;
-	if (m_pBaseTexture) m_pBaseTexture->End();
+	if (m_pBaseTexture) {
+		m_pBaseTexture->End();
+		delete m_pBaseTexture;
+	}
 	m_pBaseTexture = nullptr;
-	if (m_pHeightMapTexture) m_pHeightMapTexture->End();
+	if (m_pHeightMapTexture) {
+		m_pHeightMapTexture->End();
+		delete m_pHeightMapTexture;
+	}
 	m_pHeightMapTexture = nullptr;
-	if (m_pNormalTexture) m_pNormalTexture->End();
+	if (m_pNormalTexture) {
+		m_pNormalTexture->End();
+		delete m_pNormalTexture;
+	}
 	m_pNormalTexture = nullptr;
 	
 	if (m_pGlobalTerrainBuffer) m_pGlobalTerrainBuffer = nullptr;
@@ -141,6 +150,9 @@ bool CTerrainContainer::End() {
 
 	//Ãß°¡
 	m_pTessFacterBuffer = nullptr;
+
+	if (m_pTessFacterData) delete m_pTessFacterData;
+	m_pTessFacterData = nullptr;
 	return true;
 }
 
@@ -437,6 +449,7 @@ void CTerrainContainer::SetPickPosHeight(){
 
 void CTerrainContainer::SetBaseTexture(wstring path){
 	if (m_pBaseTexture)m_pBaseTexture->End();
+	delete m_pBaseTexture;
 	m_pBaseTexture = nullptr;
 
 	m_pBaseTexture = CTexture::CreateTexture(path, 0);
@@ -621,7 +634,7 @@ void CTerrainContainer::CreateTerrainTextures(LPCTSTR pTerrainName){
 	wsprintf(path, L"../%sNormalMap.bmp", pTerrainName);
 	m_pNormalData = IMPORTER->ReadBitmap24(path, width, height);//nomalmap
 	m_pNormalTexture = CTexture::CreateTexture(path, PS_SLOT_NORMALMAP, BIND_PS);
-	m_pBaseTexture = CTexture::CreateTexture(L"../../Assets/default.jpg", 0);
+	SetBaseTexture(L"../../Assets/default.jpg");
 }
 void CTerrainContainer::SetHeightData(float * pHeightData){
 	if (m_pHeightData) delete[] m_pHeightData;
@@ -655,7 +668,8 @@ void CTerrainContainer::CreateResetTextures(LPCTSTR pTerrainName) {
 
 	ReadyHeightMap();
 	//m_pHeightMapTexture = CTexture::CreateTexture(path, 1, BIND_DS);
-	m_pBaseTexture = CTexture::CreateTexture(L"../../Assets/default.jpg", 0);
+	SetBaseTexture(L"../../Assets/default.jpg");
+	//m_pBaseTexture = CTexture::CreateTexture(L"../../Assets/default.jpg", 0);
 	////normal
 	//wsprintf(path, L"../%sNormalMap.bmp", pTerrainName);
 	m_pNormalData = new Pixel24[(m_nWidth) * (m_nLength)];
@@ -687,6 +701,9 @@ void CTerrainContainer::ChangeSpaceData(){
 
 	for (auto pTerrain : m_vpTerrain) {
 		m_pSpaceContainer->RemoveObject(pTerrain);
+		pTerrain->End();
+		delete pTerrain;
+
 	}
 	m_vpTerrain.clear();
 

@@ -8,8 +8,10 @@ void CStemp::Begin(){
 
 bool CStemp::End(){
 	m_pStempTexture->End();
+	delete m_pStempTexture;
 	m_pStempTexture = nullptr;
 
+	delete m_pStempData;
 	return true;
 }
 
@@ -200,6 +202,8 @@ CStemp * CStemp::CreateStemp(wstring name, CStempManager* pStempManager){
 		//data -= 1000;//-1000 - 1000
 		pStempData[i] = data;
 	}
+	delete pPixelStempData;
+
 	pStemp->SetStempWidth(width);
 	pStemp->SetStempLength(length);
 	pStemp->SetStempData(pStempData);

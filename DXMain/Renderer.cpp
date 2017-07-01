@@ -142,6 +142,7 @@ bool CRenderer::End() {
 		m_pShadow->End();
 		delete m_pShadow;
 	}
+	ReleseInstance();
 	return true;
 }
 
@@ -532,8 +533,20 @@ bool CRenderer::CreateRenderTargetView() {
 }
 
 void CRenderer::ReleaseForwardRenderTargets() {
+	if (m_pd3dtxtLight) m_pd3dtxtLight->Release();
+	m_pd3dtxtLight = nullptr;
+
 	//texture end
+	for (auto pTexture : m_vObjectLayerResultTexture) {
+		pTexture->End();
+		delete pTexture;
+	}
 	m_vObjectLayerResultTexture.clear();
+
+	for (auto pTexture : m_vLightLayerResultTexture) {
+		pTexture->End();
+		delete pTexture;
+	}
 	m_vLightLayerResultTexture.clear();
 
 	if (m_pd3dtxtColorSpecInt) m_pd3dtxtColorSpecInt->Release();//0
@@ -548,16 +561,16 @@ void CRenderer::ReleaseForwardRenderTargets() {
 	if (m_pd3dtxtDepthStencil) m_pd3dtxtDepthStencil->Release();
 	m_pd3dtxtDepthStencil = nullptr;
 
-	if (m_pd3dsrvColorSpecInt) m_pd3dsrvColorSpecInt->Release();//0
+	//if (m_pd3dsrvColorSpecInt) m_pd3dsrvColorSpecInt->Release();//0
 	m_pd3dsrvColorSpecInt = nullptr;
 
-	if (m_pd3dsrvNormal) m_pd3dsrvNormal->Release();//1
+	//if (m_pd3dsrvNormal) m_pd3dsrvNormal->Release();//1
 	m_pd3dsrvNormal = nullptr;
 
-	if (m_pd3dsrvSpecPow) m_pd3dsrvSpecPow->Release();//2
+	//if (m_pd3dsrvSpecPow) m_pd3dsrvSpecPow->Release();//2
 	m_pd3dsrvSpecPow = nullptr;
 
-	if (m_pd3dsrvDepthStencil) m_pd3dsrvDepthStencil->Release();
+	//if (m_pd3dsrvDepthStencil) m_pd3dsrvDepthStencil->Release();
 	m_pd3dsrvDepthStencil = nullptr;
 
 	if (m_pd3drtvColorSpecInt) m_pd3drtvColorSpecInt->Release();//0

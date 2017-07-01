@@ -7,7 +7,7 @@ bool CDirectoryFinder::Begin() {
 }
 
 bool CDirectoryFinder::End() {
-
+	ReleseInstance();
 	return true;
 }
 

@@ -72,6 +72,7 @@ bool CGlobalValueManager::End() {
 	m_vpStempObjectList.clear();
 
 	if (m_pPositioningObject) delete m_pPositioningObject;
+	ReleseInstance();
 	return true;
 }
 

@@ -27,6 +27,7 @@ bool CResourceManager::End() {
 	ReleaseStempMeshs();
 	ReleaseAnimaters();
 
+	ReleseInstance();
 	return true;
 }
 
@@ -581,7 +582,7 @@ void CResourceManager::ReleaseSamplers() {
 
 void CResourceManager::ReleaseTextures() {
 	for (auto data : m_mTexture) {
-		if (data.second)data.second->End();
+		if (data.second) data.second->End();
 		delete data.second;
 	}
 	m_mTexture.clear();

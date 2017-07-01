@@ -21,7 +21,10 @@ bool CSplattingInfoManager::End(){
 	m_pDetailTextures = nullptr;
 	if (m_pBlendInfoTextures)m_pBlendInfoTextures->End();
 	m_pBlendInfoTextures = nullptr;
-	if (m_pSplattingInfoBuffer) m_pSplattingInfoBuffer->End();
+	if (m_pSplattingInfoBuffer) {
+		m_pSplattingInfoBuffer->End();
+		delete m_pSplattingInfoBuffer;
+	}
 	m_pSplattingInfoBuffer = nullptr;
 	
 	ClearSplattingInfo();

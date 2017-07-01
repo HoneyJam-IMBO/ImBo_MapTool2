@@ -46,7 +46,7 @@ bool CUpdater::End() {
 		delete m_pDirectionalLight;
 	}
 	m_pDirectionalLight = nullptr;
-
+	ReleseInstance();
 	return true;
 }
 
@@ -117,6 +117,8 @@ void CUpdater::SaveSpaceInfo(){
 
 void CUpdater::LoadTerrainInfo(wstring wsOutputPath, wstring wsSceneName){
 	if (m_pTerrainContainer->GetActive()) {//terrain container가 있다면..
+		//추가
+		CNaviObjectManager::LoadData();
 
 		//추가
 		float zn = IMPORTER->ReadFloat();
@@ -180,6 +182,9 @@ void CUpdater::LoadTerrainInfo(wstring wsOutputPath, wstring wsSceneName){
 void CUpdater::SaveTerrainInfo(wstring wsOutputPath, wstring wsSceneName){
 
 	if (m_pTerrainContainer->GetActive()) {//terrain container가 있다면..
+		//추가
+		CNaviObjectManager::SaveData();
+
 		//추가
 		float zn = m_pTerrainContainer->GetTessFacterZn();
 		EXPORTER->WriteFloat(zn); EXPORTER->WriteSpace();

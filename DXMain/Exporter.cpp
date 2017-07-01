@@ -11,7 +11,6 @@ bool CExporter::End(){
 
 	delete m_pFilrExporter;
 	m_pFilrExporter = nullptr;
-
 	return true;
 }
 

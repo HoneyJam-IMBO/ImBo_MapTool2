@@ -29,6 +29,7 @@ CGameTimer::CGameTimer() :CSingleTonBase<CGameTimer>("timesingleton")
 
 CGameTimer::~CGameTimer()
 {
+	
 }
 
 void CGameTimer::Tick(float fLockFPS)

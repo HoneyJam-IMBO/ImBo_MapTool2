@@ -10,7 +10,7 @@ bool CObject::Begin() {
 	return true;
 }
 bool CObject::End() {
-
+	m_name.clear();
 	return true;
 }
 CObject::CObject(string name, tag t, utag ut) : m_name(name), m_tag(t), m_utag(ut) {

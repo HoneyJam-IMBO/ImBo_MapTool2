@@ -69,12 +69,44 @@ void CNaviObjectManager::Render(){
 		for (auto pVertex : m_vpNaviVertex) {
 			BoundingOrientedBox obb;
 			obb.Center = pVertex->GetPosition();
-			obb.Extents = XMFLOAT3(5.f, 5.f, 5.f);
-			DEBUGER->RegistOBB(obb);
+			obb.Extents = XMFLOAT3(1.f, 1.f, 1.f);
+			DEBUGER->RegistOBB(obb, UTAG_COLLISION);
 		}
 
+		//navi mesh
+		{
+			XMFLOAT4* pData = (XMFLOAT4*)m_pGSNaviMeshVertexBuffer->Map();
+			int i = 0;
+			for (auto pVertex : m_vpNaviVertex) {
+				XMFLOAT3 vertex = pVertex->GetPosition();
+				pData[i++] = XMFLOAT4(vertex.x, vertex.y, vertex.z, 1);
+			}
+
+			m_pGSNaviMeshVertexBuffer->Unmap();
+			m_pGSNaviMeshVertexBuffer->SetShaderState();
+		}
+		{
+			NaviMeshIndexData* pData = (NaviMeshIndexData*)m_pNaviMeshInstancingBuffer->Map();
+			int index = 0;
+			for (auto pNaviObject : m_vNaviObject) {
+
+				pData->m_pIndices[index++] = pNaviObject->GetNaviVertices()[0]->GetIndex();
+				pData->m_pIndices[index++] = pNaviObject->GetNaviVertices()[1]->GetIndex();
+				pData->m_pIndices[index++] = pNaviObject->GetNaviVertices()[2]->GetIndex();
+			}
+			m_pNaviMeshInstancingBuffer->Unmap();
+			//m_pNaviMeshInstancingBuffer->SetShaderState();
+		}
+		m_pNaviObjectShader->SetShaderState();
+
+		//mesh
+		m_pNaviMesh->SetShaderState();
+		m_pNaviMesh->Render(m_vNaviObject.size());
+
+		m_pNaviObjectShader->CleanShaderState();
 	}
 
+	//ui
 	{
 		//update 중에 ui정보를 update하자
 		//지금 control중인 navivertex의 위치 조정, 삭제 등등
@@ -84,37 +116,6 @@ void CNaviObjectManager::Render(){
 			return;
 		}
 	}
-	
-	{
-		XMFLOAT4* pData = (XMFLOAT4*)m_pGSNaviMeshVertexBuffer->Map();
-		int i = 0;
-		for (auto pVertex : m_vpNaviVertex) {
-			XMFLOAT3 vertex = pVertex->GetPosition();
-			pData[i++] = XMFLOAT4(vertex.x, vertex.y, vertex.z, 1);
-		}
-		
-		m_pGSNaviMeshVertexBuffer->Unmap();
-		m_pGSNaviMeshVertexBuffer->SetShaderState();
-	}
-	{
-		NaviMeshIndexData* pData = (NaviMeshIndexData*)m_pNaviMeshInstancingBuffer->Map();
-		int index = 0;
-		for (auto pNaviObject : m_vNaviObject) {
-			
-			pData->m_pIndices[index++] = pNaviObject->GetNaviVertices()[0]->GetIndex();
-			pData->m_pIndices[index++] = pNaviObject->GetNaviVertices()[1]->GetIndex();
-			pData->m_pIndices[index++] = pNaviObject->GetNaviVertices()[2]->GetIndex();
-		}
-		m_pNaviMeshInstancingBuffer->Unmap();
-		//m_pNaviMeshInstancingBuffer->SetShaderState();
-	}
-	m_pNaviObjectShader->SetShaderState();
-
-	//mesh
-	m_pNaviMesh->SetShaderState();
-	m_pNaviMesh->Render(m_vNaviObject.size());
-
-	m_pNaviObjectShader->CleanShaderState();
 }
 
 void CNaviObjectManager::PickingProc(XMFLOAT3 xmf3PickingPos){
@@ -256,7 +257,46 @@ int CNaviObjectManager::GetIndex(float x, float z, int index){
 	return -1;
 }
 void CNaviObjectManager::LoadData(){
+	m_ControlVertexCount = 0;
 
+	//기존의 객체를 지운다. 
+	for (auto pVertex : m_vpNaviVertex) {
+		pVertex->End();
+		delete pVertex;
+	}
+	m_vpNaviVertex.clear();
+	for (auto pNaviObject : m_vNaviObject) {
+		pNaviObject->End();
+		delete pNaviObject;
+	}
+	m_vNaviObject.clear();
+	//navi object를 생성한다.
+	//vertex
+	XMFLOAT3 xmf3Pos;
+	int nVertices = IMPORTER->ReadInt();
+	for (int i = 0; i < nVertices; ++i) {
+		xmf3Pos.x = IMPORTER->ReadFloat();
+		xmf3Pos.y = IMPORTER->ReadFloat();
+		xmf3Pos.z = IMPORTER->ReadFloat();
+		m_vpNaviVertex.push_back(CNaviVertex::CreateNaviVertex(xmf3Pos));
+	}
+	ResetVertexIndex();
+	//vertex
+
+	//navi object
+	int nObject = IMPORTER->ReadInt();
+	for (int i = 0; i < nObject; ++i) {
+		//vertex num
+		//int vertex_num = IMPORTER->ReadInt();
+		
+		for (int j = 0; j < 3; ++j) {
+			
+			m_ControlVertexs[j] = m_vpNaviVertex[IMPORTER->ReadInt()];
+			m_ControlVertexCount++;
+		}
+		CreateNaviObject();
+	}
+	//navi object
 }
 void CNaviObjectManager::SaveData(){
 	//navi vertex
@@ -275,11 +315,16 @@ void CNaviObjectManager::SaveData(){
 	int nObject = m_vNaviObject.size();
 	EXPORTER->WriteInt(nObject); EXPORTER->WriteSpace();
 	for (auto pNaviObject : m_vNaviObject) {
+		//vertex num = allways 3
+		//int vertex_num = pNaviObject->GetNaviVertices().size();
+		//EXPORTER->WriteInt(vertex_num); EXPORTER->WriteEnter();
+
 		for (auto pVertex : pNaviObject->GetNaviVertices()) {
-			int index = 0;
-			index = pVertex->GetIndex();
-			EXPORTER->WriteInt(index); EXPORTER->WriteSpace();
+			//vertex index save
+			int vertex_index = pVertex->GetIndex();
+			EXPORTER->WriteInt(vertex_index); EXPORTER->WriteSpace();
 		}
+		EXPORTER->WriteEnter();
 	}
 	EXPORTER->WriteEnter();
 	//navi object

@@ -12,6 +12,7 @@ bool CBlur::Begin() {
 bool CBlur::End() {
 	ReleaseBuffer();
 	m_pResBuffer->End();
+	delete m_pResBuffer;
 	m_pResBuffer = nullptr;
 	m_pVerBlurComputeShader->End();
 	delete m_pVerBlurComputeShader;

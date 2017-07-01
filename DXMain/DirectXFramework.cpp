@@ -59,6 +59,7 @@ void CDirectXFramework::End() {
 	//camera end
 	if (m_pCamera) {
 		m_pCamera->End();
+		delete m_pCamera;
 	}
 	m_pCamera = nullptr;
 
@@ -69,13 +70,21 @@ void CDirectXFramework::End() {
 		m_stackScene.pop();
 	}
 
-
+	
+	CNaviObjectManager::Begin();
 	//singleton End
 	RESOURCEMGR->End();
 	RCSELLER->End();
 	DEBUGER->End();
 	INPUTMGR->End();
 	UPDATER->End();
+	GLOBALVALUEMGR->ReleseInstance();
+	IMPORTER->ReleseInstance();
+	EXPORTER->ReleseInstance();
+	DIRECTORYFINDER->ReleseInstance();
+	TIMEMGR->ReleseInstance();
+	RENDERER->End();
+
 	CNaviObjectManager::End();
 	//singleton End
 

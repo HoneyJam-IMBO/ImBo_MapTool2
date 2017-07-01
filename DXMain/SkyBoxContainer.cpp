@@ -44,6 +44,7 @@ CSkyBoxContainer * CSkyBoxContainer::CreateSkyBoxContainer(LPCTSTR pSkyBoxName, 
 }
 void CSkyBoxContainer::CreateSkyBoxTexture(UINT index){
 	if (m_ptxtSkyBox) m_ptxtSkyBox->End();
+	delete m_ptxtSkyBox;
 	m_ptxtSkyBox = nullptr;
 
 	//skybox
