@@ -34,6 +34,11 @@ private:
 	void RenderExcuteWithOutObject();
 public:
 	void Render( CCamera* pCamera);
+
+	void SetShaderState_NoPS();
+	void Render_NoPS(CCamera* pCamera);
+
+
 	void RenderWithOutObject( CCamera* pCamera);
 
 	 CMesh* GetMesh(UINT index = 0) { return m_vpMesh[index]; }

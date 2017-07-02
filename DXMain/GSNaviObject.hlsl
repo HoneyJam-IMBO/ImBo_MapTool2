@@ -20,17 +20,20 @@ void main(
 )
 {
 	uint3 index = input[0].index;
-	for (uint i = 0; i < 3; i++)
-	{
-		GSOutput element;
-		element.pos = Vertex[index.x];
-		element.pos = mul(element.pos, gmtxViewProjection);
-		output.Append(element);
-		element.pos = Vertex[index.y];
-		element.pos = mul(element.pos, gmtxViewProjection);
-		output.Append(element);
-		element.pos = Vertex[index.z];
-		element.pos = mul(element.pos, gmtxViewProjection);
-		output.Append(element);
-	}
+
+	GSOutput element;
+	element.pos = Vertex[index.x];
+	element.pos.y += 0.01;
+	element.pos = mul(element.pos, gmtxViewProjection);
+	output.Append(element);
+
+	element.pos = Vertex[index.y];
+	element.pos.y += 0.01;
+	element.pos = mul(element.pos, gmtxViewProjection);
+	output.Append(element);
+
+	element.pos = Vertex[index.z];
+	element.pos.y += 0.01;
+	element.pos = mul(element.pos, gmtxViewProjection);
+	output.Append(element);
 }

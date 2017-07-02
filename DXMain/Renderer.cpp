@@ -190,7 +190,7 @@ void CRenderer::Render( CCamera* pCamera) {
 	pCamera->SetShaderState();
 	m_pObjectRenderer->Excute(pCamera);
 
-	CNaviObjectManager::Render();
+	
 	DEBUGER->end_Timemeasurement(L"object_render");
 	//OBJECT RENDER
 	

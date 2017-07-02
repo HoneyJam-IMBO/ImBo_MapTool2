@@ -60,6 +60,16 @@ void CSSRF::UpdateShaderState() {
 }
 
 void CSSRF::Excute( CCamera* pCamera, ID3D11RenderTargetView* prtvHDR, ID3D11DepthStencilView* pdsvReadOnlyDepthStencil, ID3D11ShaderResourceView* psrvHDR, ID3D11ShaderResourceView* psrvDepth, ID3D11ShaderResourceView* psrvNormal) {
+	auto mapSSRFRC = RCSELLER->GetTagRenderContainer()[tag::TAG_REFLECTION];
+	bool bSSRF = false;
+	for (auto vecSSRF : mapSSRFRC) {
+		if (vecSSRF.second->GetObjectList().size() > 0) {
+			bSSRF = true;
+			break;
+		}
+	}
+	if (false == bSSRF)return;
+
 	FLOAT clearColor[4] = { 0,0,0,0 };
 	GLOBALVALUEMGR->GetDeviceContext()->ClearRenderTargetView(m_pd3drtvRef, clearColor);
 

@@ -149,6 +149,40 @@ void CRenderContainer::Render( CCamera* pCamera) {
 	m_pShader->CleanShaderState();
 }
 
+void CRenderContainer::SetShaderState_NoPS() {
+	m_pShader->SetShaderState_NoPS();
+
+	for (auto p : m_vpTexture) {
+		p->SetShaderState();
+	}
+	for (auto p : m_vpVolatileTexture) {
+		p->SetShaderState();
+	}
+	for (auto p : m_vpMaterial) {
+		p->SetShaderState();
+	}
+	for (auto p : m_vpBuffer) {
+		p->SetShaderState();
+	}
+	for (auto p : m_vpVolatileBuffer) {
+		p->SetShaderState();
+	}
+
+	if (m_pAnimater)m_pAnimater->SetShaderState();
+
+}
+
+void CRenderContainer::Render_NoPS(CCamera * pCamera) {
+	if (m_lpObjects.empty()) return;
+
+	UpdateShaderState(pCamera);
+	SetShaderState_NoPS();
+	RenderExcute();			//Render;
+							//CleanShaderState();
+	m_pShader->CleanShaderState();
+	if (m_pAnimater)m_pAnimater->CleanShaderState();
+}
+
 void CRenderContainer::RenderWithOutObject( CCamera* pCamera){
 	//shader State Update/ Instancing Buffet Update
 	UpdateShaderState(pCamera);

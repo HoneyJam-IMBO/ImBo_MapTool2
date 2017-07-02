@@ -47,6 +47,36 @@ void CRenderShader::SetShaderState() {
 		GLOBALVALUEMGR->GetDeviceContext()->PSSetShader(m_pixelShader, nullptr, 0);
 	}
 }
+
+void CRenderShader::SetShaderState_NoPS() {
+	// Input Layout
+	GLOBALVALUEMGR->GetDeviceContext()->IASetInputLayout(m_inputLayout);
+
+	// vs
+	if (m_vertexShader) {
+		GLOBALVALUEMGR->GetDeviceContext()->VSSetShader(m_vertexShader, nullptr, 0);
+	}
+
+	// gs
+	if (m_geometryShader) {
+		GLOBALVALUEMGR->GetDeviceContext()->GSSetShader(m_geometryShader, nullptr, 0);
+	}
+
+	// hs
+	if (m_hullShader) {
+		GLOBALVALUEMGR->GetDeviceContext()->HSSetShader(m_hullShader, nullptr, 0);
+	}
+
+	//ds 
+	if (m_domainShader) {
+		GLOBALVALUEMGR->GetDeviceContext()->DSSetShader(m_domainShader, nullptr, 0);
+	}
+
+	// ps
+	GLOBALVALUEMGR->GetDeviceContext()->PSSetShader(nullptr, nullptr, 0);
+
+}
+
 void CRenderShader::CleanShaderState() {
 	// ps
 	if (m_vertexShader) {

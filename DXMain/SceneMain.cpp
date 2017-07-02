@@ -215,8 +215,6 @@ void CSceneMain::CreatePositioningObject() {
 	pWater->Begin();
 	m_vpObjectList.push_back(pWater);
 
-
-	HPEN p;
 }
 void CSceneMain::CreatePositioningStempObject(){
 	GLOBALVALUEMGR->GetPickingObjectOriginVectors().clear();
@@ -435,7 +433,7 @@ bool CSceneMain::End() {
 	//m_RenderContainerSeller->End();
 	
 	
-
+	m_LoadFileStruct.clear();
 	//카메라는 Framework에 존재하는 것이기에 End()작업을 진행하지 않는다.
 	return CScene::End();
 }

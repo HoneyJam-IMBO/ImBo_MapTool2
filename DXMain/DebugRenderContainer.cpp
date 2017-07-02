@@ -10,7 +10,7 @@ void CDebugRenderContainer::UpdateShaderState( CCamera* pCamera) {
 		p->UpdateShaderState();
 	}
 	for (auto p : m_vpMaterial) {
-		p->UpdateShaderState();
+		//p->UpdateShaderState();
 	}
 	for (auto p : m_vpBuffer) {
 		p->UpdateShaderState();

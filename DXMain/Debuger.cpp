@@ -80,10 +80,11 @@ bool CDebuger::End() {
 	for (int i = 0; i < BOUNDINGBOX_NUM; ++i) {
 		delete m_ppBoundingBox[i];
 	}
+	delete m_ppBoundingBox;
 	for (int j = 0; j < COORD_NUM; ++j) {
 		delete m_ppCoordinateSys[j];
 	}
-
+	delete m_ppCoordinateSys;
 	//rendercontainer end는 seller의 역할이다.
 	//font
 	if (m_pFW1FontFactory) m_pFW1FontFactory->Release();
@@ -104,6 +105,12 @@ bool CDebuger::End() {
 		m_qDebugTextureData.pop();
 	}
 	
+
+	if (m_pDebugTextureObj) {
+		m_pDebugTextureObj->End();
+		delete m_pDebugTextureObj;
+	}
+
 	ReleseInstance();
 	return true;
 }
@@ -139,6 +146,7 @@ void CDebuger::RegistToDebugRenderContainer(CGameObject * pObject){
 }
 
 void CDebuger::DebugRender( CCamera* pCamera){
+	CNaviObjectManager::Render();
 	RenderAABB(pCamera);
 	RenderLightVolume(pCamera);
 	RenderCoordinateSys(pCamera);
@@ -274,6 +282,9 @@ void CDebuger::RenderTexture(){
 		m_mDebugRenderContainer["debugtexture"]->Render(nullptr);
 		m_mDebugRenderContainer["debugtexture"]->ClearObjectList();
 		m_mDebugRenderContainer["debugtexture"]->ClearTextures();
+
+		//m_pDebugTexture->End();
+		delete m_pDebugTexture;
 	}
 
 	//dpeh thexture
@@ -291,6 +302,8 @@ void CDebuger::RenderTexture(){
 		m_mDebugRenderContainer["debugdepthtexture"]->Render(nullptr);
 		m_mDebugRenderContainer["debugdepthtexture"]->ClearObjectList();
 		m_mDebugRenderContainer["debugdepthtexture"]->ClearTextures();
+
+		delete m_pDebugTexture;
 	}
 }
 int CDebuger::DebugMessageBox(std::string _title, std::string _message)

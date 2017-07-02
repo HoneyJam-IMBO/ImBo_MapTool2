@@ -113,6 +113,7 @@ bool CShadow::End()
 	//	m_pGlobalTerrainBuffer->End();
 	//	m_pGlobalTerrainBuffer = nullptr;
 	//}
+	if (m_pShadowInfo) delete m_pShadowInfo;
 	return true;
 }
 

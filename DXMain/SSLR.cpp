@@ -42,6 +42,14 @@ bool CSSLR::End(){
 	delete m_pMakeOcclussionComputeShader;
 	m_pMakeOcclussionComputeShader = nullptr;
 
+	if (m_pLightRaysTexture) {
+		m_pLightRaysTexture->End();
+		delete m_pLightRaysTexture;
+	}
+	if (m_pOcclussionTexture) {
+		m_pOcclussionTexture->End();
+		delete m_pOcclussionTexture;
+	}
 	return true;
 }
 

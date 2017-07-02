@@ -142,6 +142,7 @@ bool CTerrainContainer::End() {
 	//terrain object remove
 	for (auto pTerrain : m_vpTerrain) {
 		m_pSpaceContainer->RemoveObject(pTerrain);
+		delete pTerrain;
 	}
 	m_vpTerrain.clear();
 
@@ -350,7 +351,10 @@ CGameObject * CTerrainContainer::PickObjects(XMVECTOR xmvWorldCameraStartPos, XM
 
 //터레인 추가분
 void CTerrainContainer::ReadyHeightMap(){
-	if(m_pHeightMapTexture)m_pHeightMapTexture->End();
+	if (m_pHeightMapTexture) {
+		m_pHeightMapTexture->End();
+		delete m_pHeightMapTexture;
+	}
 	m_pHeightMapTexture = nullptr;
 
 	//height map data init
@@ -476,7 +480,10 @@ void CTerrainContainer::CreateNormalMap(){
 	//3. height는 그대로이다. 높이 값은 bitmap 세계에 있으니까 그냥 읽어도 됨
 	//4. normal을 계산한다.
 	//끝
-	if(m_pNormalTexture)m_pNormalTexture->End();
+	if (m_pNormalTexture) {
+		m_pNormalTexture->End();
+		delete m_pNormalTexture;
+	}
 	m_pNormalTexture = nullptr;
 
 	//calculate normal
@@ -699,12 +706,12 @@ void CTerrainContainer::ChangeSpaceData(){
 	//1. space안의 모든 terrain제거
 	//End();
 
-	for (auto pTerrain : m_vpTerrain) {
-		m_pSpaceContainer->RemoveObject(pTerrain);
-		pTerrain->End();
-		delete pTerrain;
-
-	}
+	//for (auto pTerrain : m_vpTerrain) {
+	//	m_pSpaceContainer->RemoveObject(pTerrain);
+	//	pTerrain->End();
+	//	delete pTerrain;
+	//
+	//}
 	m_vpTerrain.clear();
 
 	//2. mesh/ buffer새로 제작

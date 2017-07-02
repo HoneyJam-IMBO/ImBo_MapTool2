@@ -52,6 +52,7 @@ ID3D11ShaderResourceView* CBlur::Excute(ID3D11ShaderResourceView* pSRVDest) {
 
 	//clean
 	ID3D11ShaderResourceView* pCleanSRVs[1] = { nullptr };
+	GLOBALVALUEMGR->GetDeviceContext()->PSSetShaderResources(4, 1, pCleanSRVs);
 	GLOBALVALUEMGR->GetDeviceContext()->CSSetShaderResources(0, 1, pCleanSRVs);
 	ID3D11UnorderedAccessView *pCleanUAVs[1] = { nullptr };
 	GLOBALVALUEMGR->GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, pCleanUAVs, (UINT*)(&pCleanUAVs));

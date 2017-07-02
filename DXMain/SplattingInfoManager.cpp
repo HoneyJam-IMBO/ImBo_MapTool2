@@ -17,9 +17,15 @@ bool CSplattingInfoManager::End(){
 	barName = "SPLATTING_INFO_LIST";
 	TWBARMGR->DeleteBar(barName);
 
-	if (m_pDetailTextures)m_pDetailTextures->End();
+	if (m_pDetailTextures) {
+		m_pDetailTextures->End();
+		delete m_pDetailTextures;
+	}
 	m_pDetailTextures = nullptr;
-	if (m_pBlendInfoTextures)m_pBlendInfoTextures->End();
+	if (m_pBlendInfoTextures) {
+		m_pBlendInfoTextures->End();
+		delete m_pBlendInfoTextures;
+	}
 	m_pBlendInfoTextures = nullptr;
 	if (m_pSplattingInfoBuffer) {
 		m_pSplattingInfoBuffer->End();
@@ -29,6 +35,7 @@ bool CSplattingInfoManager::End(){
 	
 	ClearSplattingInfo();
 
+	
 	return true;
 }
 
@@ -49,9 +56,15 @@ void CSplattingInfoManager::UpdateShaderState(){
 
 		m_vSplattinfInfo[m_nCurIndex]->UpdateShaderState();
 
-		if (m_pDetailTextures)m_pDetailTextures->End();
+		if (m_pDetailTextures) {
+			m_pDetailTextures->End();
+			delete m_pDetailTextures;
+		}
 		m_pDetailTextures = nullptr;
-		if (m_pBlendInfoTextures)m_pBlendInfoTextures->End();
+		if (m_pBlendInfoTextures) {
+			m_pBlendInfoTextures->End();
+			delete m_pBlendInfoTextures;
+		}
 		m_pBlendInfoTextures = nullptr;
 
 		//detail/ blending info texture제작
@@ -107,6 +120,7 @@ void CSplattingInfoManager::RemoveSplattingInfoByIndex(UINT index){
 void CSplattingInfoManager::ClearSplattingInfo(){
 	for (auto pData : m_vSplattinfInfo) {
 		pData->CleanShaderState();
+		pData->End();
 		delete pData;
 	}
 	m_vSplattinfInfo.clear();
@@ -129,9 +143,15 @@ void CSplattingInfoManager::CreateSplattingInfo(const WCHAR * pDetailTextureName
 	m_vSplattinfInfo.push_back(pSplattingInfo);
 	CreateSplattingListUI();
 
-	if (m_pDetailTextures)m_pDetailTextures->End();
+	if (m_pDetailTextures) {
+		m_pDetailTextures->End();
+		delete m_pDetailTextures;
+	}
 	m_pDetailTextures = nullptr;
-	if (m_pBlendInfoTextures)m_pBlendInfoTextures->End();
+	if (m_pBlendInfoTextures) {
+		m_pBlendInfoTextures->End();
+		delete m_pBlendInfoTextures;
+	}
 	m_pBlendInfoTextures = nullptr;
 
 	//detail/ blending info texture제작
@@ -155,9 +175,15 @@ void CSplattingInfoManager::CreateSplattingInfo(const WCHAR * pDetailTextureName
 	m_vSplattinfInfo.push_back(pSplattingInfo);
 	CreateSplattingListUI();
 
-	if (m_pDetailTextures)m_pDetailTextures->End();
+	if (m_pDetailTextures) {
+		m_pDetailTextures->End();
+		delete m_pDetailTextures;
+	}
 	m_pDetailTextures = nullptr;
-	if (m_pBlendInfoTextures)m_pBlendInfoTextures->End();
+	if (m_pBlendInfoTextures) {
+		m_pBlendInfoTextures->End();
+		delete m_pBlendInfoTextures;
+	}
 	m_pBlendInfoTextures = nullptr;
 
 	//detail/ blending info texture제작

@@ -30,6 +30,7 @@ public:
 	void SetShaderState();
 	void CleanShaderState();
 	//----------------------------dxobject-----------------------------
+	void SetShaderState_NoPS();
 
 	static  CRenderShader* CreateRenderShader(LPCTSTR ShaderName, UINT InputElementFlag = 0, UINT BindFlag = BIND_VS | BIND_PS);
 	static  CRenderShader* CreateRenderShader(LPCTSTR* ShaderNames, UINT InputElementFlag = 0, UINT BindFlag = BIND_VS | BIND_PS);

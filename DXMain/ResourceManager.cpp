@@ -362,6 +362,7 @@ void CResourceManager::CreateFBXResources() {
 	 CTexture* pTexture = CTexture::CreateTexture(nTextures, ppstrFilePaths, Slot, BindFlag, pConstantBuffer);
 	if (m_mTexture.find(name) != m_mTexture.end()) {
 		m_mTexture[name]->End();
+		delete m_mTexture[name];
 		m_mTexture.erase(name);
 	}
 	m_mTexture.insert(pairTexture(name, pTexture));
@@ -372,6 +373,7 @@ void CResourceManager::CreateFBXResources() {
 	 CTexture* pTexture = CTexture::CreateTexture(nTextures, ppd3dTextures, Slot, BindFlag, pConstantBuffer);
 	if (m_mTexture.find(name) != m_mTexture.end()) {
 		m_mTexture[name]->End();
+		delete m_mTexture[name];
 		m_mTexture.erase(name);
 	}
 	m_mTexture.insert(pairTexture(name, pTexture));
@@ -382,6 +384,7 @@ void CResourceManager::CreateFBXResources() {
 	 CTexture* pTexture = CTexture::CreateTexture(pstrFilePath, Slot, BindFlag, pConstantBuffer);
 	if (m_mTexture.find(name) != m_mTexture.end()) {
 		m_mTexture[name]->End();
+		delete m_mTexture[name];
 		m_mTexture.erase(name);
 	}
 	m_mTexture.insert(pairTexture(name, pTexture));
@@ -392,6 +395,7 @@ void CResourceManager::CreateFBXResources() {
 	 CTexture* pTexture = CTexture::CreateTexture(pShaderResourceView, Slot, BindFlag, pConstantBuffer);
 	if (m_mTexture.find(name) != m_mTexture.end()) {
 		m_mTexture[name]->End();
+		delete m_mTexture[name];
 		m_mTexture.erase(name);
 	}
 	m_mTexture.insert(pairTexture(name, pTexture));
@@ -402,6 +406,7 @@ void CResourceManager::CreateFBXResources() {
 	 CSampler* pSampler = CSampler::CreateSampler(Slot, BindFlags, Mode, Filter, ComparisionFunc, MinLOD, MaxLOD, BorderColor);
 	if (m_mSampler.find(name) != m_mSampler.end()) {
 		m_mSampler[name]->End();
+		delete m_mTexture[name];
 		m_mSampler.erase(name);
 	}
 	m_mSampler.insert(pairSampler(name, pSampler));
@@ -413,6 +418,7 @@ void CResourceManager::CreateFBXResources() {
 
 	if (m_mRenderShader.find(name) != m_mRenderShader.end()) {
 		m_mRenderShader[name]->End();
+		delete m_mRenderShader[name];
 		m_mRenderShader.erase(name);
 	}
 	m_mRenderShader.insert(pairShader(name, pShader));
@@ -423,6 +429,7 @@ void CResourceManager::CreateFBXResources() {
 	 CBuffer* pBuffer = CBuffer::CreateConstantBuffer(nObject, BufferStride, Slot, BindFlag, Offset);
 	if (m_mBuffer.find(name) != m_mBuffer.end()) {//있으면 기존의것을 대체
 		m_mBuffer[name]->End();
+		delete m_mBuffer[name];
 		m_mBuffer.erase(name);
 	}
 
@@ -435,6 +442,7 @@ void CResourceManager::CreateFBXResources() {
 	 CBuffer* pBuffer = CBuffer::CreateInstancingBuffer(nObject, BufferStride, Offset);
 	if (m_mBuffer.find(name) != m_mBuffer.end()) {//있으면 기존의것을 대체
 		m_mBuffer[name]->End();
+		delete m_mBuffer[name];
 		m_mBuffer.erase(name);
 	}
 	m_mBuffer.insert(pairBuffer(name, pBuffer));
@@ -445,6 +453,7 @@ void CResourceManager::CreateFBXResources() {
 	 CBuffer* pBuffer = CBuffer::CreateConstantBuffer(nObject, BufferStride, Slot, BindFlag, Offset);
 	if (m_mGlobalBuffer.find(name) != m_mGlobalBuffer.end()) {
 		m_mGlobalBuffer[name]->End();
+		delete m_mGlobalBuffer[name];
 		m_mGlobalBuffer.erase(name);
 	}
 	m_mGlobalBuffer.insert(pairBuffer(name, pBuffer));
@@ -455,6 +464,7 @@ void CResourceManager::CreateFBXResources() {
 	 CMaterial* pMaterial = CMaterial::CreateMaterial(color, specExp, specIntensity);;
 	if (m_mMaterial.find(name) != m_mMaterial.end()) {
 		m_mMaterial[name]->End();
+		delete m_mMaterial[name];
 		m_mMaterial.erase(name);
 	}
 	m_mMaterial.insert(pairMaterial(name, pMaterial));
@@ -469,6 +479,7 @@ UINT CResourceManager::CreateMultiMesh(string path, string name) {
 	if (m_mvStempMesh.find(name) != m_mvStempMesh.end()) {
 		for (auto pMesh : m_mvStempMesh[name]) {
 			pMesh->End();
+			delete pMesh;
 		}
 		m_mvStempMesh[name].clear();
 		m_mvStempMesh.erase(name);
@@ -562,6 +573,7 @@ void CResourceManager::CreateTerrainMesh(float fOneSpaceSize, string name) {
 	if (m_mvMesh.find(name) != m_mvMesh.end()) {
 		for (auto pMesh : m_mvMesh[name]) {
 			pMesh->End();
+			delete pMesh;
 		}
 		m_mvMesh[name].clear();
 	}

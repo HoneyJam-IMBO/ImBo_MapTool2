@@ -29,6 +29,9 @@ void CSpaceContainer::Begin(){
 }
 
 bool CSpaceContainer::End(){
+	//clear all objects
+	//ClearAllObjects();
+
 	for (auto pObject : m_lpBlockObject) {
 		pObject->End();
 		delete pObject;

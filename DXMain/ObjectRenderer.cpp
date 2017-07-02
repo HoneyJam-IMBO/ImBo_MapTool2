@@ -103,23 +103,23 @@ void CObjectRenderer::Excute( CCamera* pCamera){
 }
 void CObjectRenderer::ExcuteShadowRender( CCamera* pCamera)
 {
-	m_pTerrainRenderContainer->Render(pCamera);
+	m_pTerrainRenderContainer->Render_NoPS(pCamera);
 	m_pTerrainRenderContainer->ClearObjectList();
 
 	for (auto RenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_DYNAMIC_OBJECT]) {
-		RenderContainer.second->Render(pCamera);
+		RenderContainer.second->Render_NoPS(pCamera);
 		RenderContainer.second->ClearObjectList();
 	}
 	for (auto RenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_STATIC_OBJECT]) {
-		RenderContainer.second->Render(pCamera);
+		RenderContainer.second->Render_NoPS(pCamera);
 		RenderContainer.second->ClearObjectList();
 	}
 	for (auto RenderContainer : RCSELLER->GetStempRenderContainer()[tag::TAG_DYNAMIC_OBJECT]) {
-		RenderContainer.second->Render(pCamera);
+		RenderContainer.second->Render_NoPS(pCamera);
 		RenderContainer.second->ClearObjectList();
 	}
 	for (auto RenderContainer : RCSELLER->GetStempRenderContainer()[tag::TAG_STATIC_OBJECT]) {
-		RenderContainer.second->Render(pCamera);
+		RenderContainer.second->Render_NoPS(pCamera);
 		RenderContainer.second->ClearObjectList();
 	}
 }

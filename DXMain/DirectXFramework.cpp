@@ -64,25 +64,19 @@ void CDirectXFramework::End() {
 	m_pCamera = nullptr;
 
 	//scene end
-	for (int i = 0; i < m_nScene; ++i) {
+	//for (int i = 0; i < m_nScene; ++i) {
+	while(false == m_stackScene.empty()){
 		m_stackScene.top()->End();
 		delete m_stackScene.top();
 		m_stackScene.pop();
 	}
 
-	
-	CNaviObjectManager::Begin();
 	//singleton End
 	RESOURCEMGR->End();
 	RCSELLER->End();
 	DEBUGER->End();
 	INPUTMGR->End();
 	UPDATER->End();
-	GLOBALVALUEMGR->ReleseInstance();
-	IMPORTER->ReleseInstance();
-	EXPORTER->ReleseInstance();
-	DIRECTORYFINDER->ReleseInstance();
-	TIMEMGR->ReleseInstance();
 	RENDERER->End();
 
 	CNaviObjectManager::End();
@@ -90,6 +84,21 @@ void CDirectXFramework::End() {
 
 	//	//ui
 	TWBARMGR->End();
+
+GLOBALVALUEMGR	->ReleseInstance();
+TIMEMGR			->ReleseInstance();
+RESOURCEMGR		->ReleseInstance();
+RCSELLER		->ReleseInstance();
+DEBUGER			->ReleseInstance();
+FBXIMPORTER		->ReleseInstance();
+INPUTMGR		->ReleseInstance();
+TWBARMGR		->ReleseInstance();
+DIRECTORYFINDER	->ReleseInstance();
+EXPORTER		->ReleseInstance();
+IMPORTER		->ReleseInstance();
+RENDERER    	->ReleseInstance();
+UPDATER	    	->ReleseInstance();
+
 }
 
 void CDirectXFramework::FrameAdvance()

@@ -390,7 +390,10 @@ ID3D11ShaderResourceView * CTexture::CreateTexture2DArraySRV(ID3D11ShaderResourc
 		D3DX11CreateShaderResourceViewFromFile(GLOBALVALUEMGR->GetDevice(), pstrFilePath, NULL, NULL, &pd3dsrvTexture, NULL);
 	}
 
-	if (nullptr == pd3dsrvTexture) return nullptr;
+	if (nullptr == pd3dsrvTexture) {
+		delete pTexture;
+		return nullptr;
+	}
 	pTexture->SetpTextureSRV(pd3dsrvTexture);
 	pTexture->SetBindFlag(BindFlag);
 

@@ -17,6 +17,10 @@ bool CSkyBoxContainer::End() {
 		m_pSkyBox->End();
 		delete m_pSkyBox;
 	}
+	if (m_ptxtSkyBox) {
+		m_ptxtSkyBox->End();
+		delete m_ptxtSkyBox;
+	}
 	m_pSkyBox = nullptr;
 	return true;
 }

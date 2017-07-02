@@ -20,13 +20,14 @@ struct PixelShaderInput
 };
 
 // (보간된) 색 데이터에 대한 통과 함수입니다.
-PS_GBUFFER_OUT main(PixelShaderInput input)
+//PS_GBUFFER_OUT main(PixelShaderInput input)
+float4 main(PixelShaderInput input) : SV_TARGET
 {
 	PS_GBUFFER_OUT output = (PS_GBUFFER_OUT)0;
 
-	float4 cColor = cColor = gMaterialColor;
-	
-	return (PackGBuffer(cColor.xyz, float3(0.f, 1.f, 0.f), gSpecIntensity, gSpecExp, input.position.w));
+	float4 cColor = gMaterialColor;
+	return cColor;
+	//return (PackGBuffer(cColor.xyz, float3(0.f, 1.f, 0.f), gSpecIntensity, gSpecExp, input.position.w));
 
 }
 //float4 main(PixelShaderInput input) : SV_TARGET
