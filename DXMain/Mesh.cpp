@@ -196,16 +196,19 @@ bool CMesh::CheckPickMesh(XMVECTOR xmvModelCameraStartPos, XMVECTOR xmvModelRayD
 
 	//return GetAABB().Intersects(xmvModelCameraStartPos, xmvModelRayDir, distance);
 	//if (GetAABB().Intersects(xmvModelCameraStartPos, xmvModelRayDir, distance)) {
+	int start_index = 0;
 		if (m_pd3dIndexBuffer) {
 			int n = m_nIndices / 3;
 			for (int i = 0; i < n; ++i) {
-				XMVECTOR v0 = XMLoadFloat3(&m_pVertices[m_pnIndices[i + 0]]);
-				XMVECTOR v1 = XMLoadFloat3(&m_pVertices[m_pnIndices[i + 1]]);
-				XMVECTOR v2 = XMLoadFloat3(&m_pVertices[m_pnIndices[i + 2]]);
+				start_index = i * 3;
+				XMVECTOR v0 = XMLoadFloat3(&m_pVertices[m_pnIndices[start_index + 0]]);
+				XMVECTOR v1 = XMLoadFloat3(&m_pVertices[m_pnIndices[start_index + 1]]);
+				XMVECTOR v2 = XMLoadFloat3(&m_pVertices[m_pnIndices[start_index + 2]]);
 
 
 				if (TriangleTests::Intersects(xmvModelCameraStartPos, xmvModelRayDir, v0, v1, v2, fHitDistance)) {//ray와 충돌했다면
 					if (fNearHitDistance > fHitDistance) {//이전의 가장 가까운 녀석과 비교
+						fNearHitDistance = fHitDistance;
 						distance = fHitDistance;//더 가까우면 가장 가까운 객체 변경
 						bIntersection = true;
 					}
@@ -217,13 +220,15 @@ bool CMesh::CheckPickMesh(XMVECTOR xmvModelCameraStartPos, XMVECTOR xmvModelRayD
 			if (m_d3dPrimitiveTopology == D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST) {
 				int n = m_nVertices / 3;
 				for (int i = 0; i < n; ++i) {
-					XMVECTOR v0 = XMLoadFloat3(&m_pVertices[i + 0]);
-					XMVECTOR v1 = XMLoadFloat3(&m_pVertices[i + 1]);
-					XMVECTOR v2 = XMLoadFloat3(&m_pVertices[i + 2]);
+					start_index = i * 3;
+					XMVECTOR v0 = XMLoadFloat3(&m_pVertices[start_index + 0]);
+					XMVECTOR v1 = XMLoadFloat3(&m_pVertices[start_index + 1]);
+					XMVECTOR v2 = XMLoadFloat3(&m_pVertices[start_index + 2]);
 
 
 					if (TriangleTests::Intersects(xmvModelCameraStartPos, xmvModelRayDir, v0, v1, v2, fHitDistance)) {//ray와 충돌했다면
 						if (fNearHitDistance > fHitDistance) {//이전의 가장 가까운 녀석과 비교
+							fNearHitDistance = fHitDistance;
 							distance = fHitDistance;//더 가까우면 가장 가까운 객체 변경
 							bIntersection = true;
 						}
@@ -240,6 +245,7 @@ bool CMesh::CheckPickMesh(XMVECTOR xmvModelCameraStartPos, XMVECTOR xmvModelRayD
 
 					if (TriangleTests::Intersects(xmvModelCameraStartPos, xmvModelRayDir, v0, v1, v2, fHitDistance)) {//ray와 충돌했다면
 						if (fNearHitDistance > fHitDistance) {//이전의 가장 가까운 녀석과 비교
+							fNearHitDistance = fHitDistance;
 							distance = fHitDistance;//더 가까우면 가장 가까운 객체 변경
 							bIntersection = true;
 						}

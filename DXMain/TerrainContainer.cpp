@@ -140,11 +140,12 @@ bool CTerrainContainer::End() {
 	}
 
 	//terrain object remove
-	for (auto pTerrain : m_vpTerrain) {
-		m_pSpaceContainer->RemoveObject(pTerrain);
-		delete pTerrain;
-	}
-	m_vpTerrain.clear();
+	//for (auto pTerrain : m_vpTerrain) {
+	//	m_pSpaceContainer->RemoveObject(pTerrain);
+	//	pTerrain->End();
+	//	delete pTerrain;
+	//}
+	m_vpTerrain.clear();//space가 알아서 delete해줌
 
 	if(m_pd3dSpaceRSState)m_pd3dSpaceRSState->Release();
 	if(m_pd3dTempRSState)m_pd3dTempRSState->Release();
@@ -259,33 +260,40 @@ void CTerrainContainer::Update( CCamera* pCamera) {
 
 	if (!pCamera) return;
 	if (m_bActive) {
-		POINT p = INPUTMGR->GetMousePoint();
+		if (GLOBALVALUEMGR->GetToolMode() != TOOL_MODE_NAVIMESH) {
+			POINT p = INPUTMGR->GetMousePoint();
 
-		//Get screen pos -> Camera pos
-		XMFLOAT4X4 xmf4x4Projection;
-		XMStoreFloat4x4(&xmf4x4Projection, pCamera->GetProjectionMtx());
-		D3D11_VIEWPORT d3dViewport = pCamera->GetViewport();
+			//Get screen pos -> Camera pos
+			XMFLOAT4X4 xmf4x4Projection;
+			XMStoreFloat4x4(&xmf4x4Projection, pCamera->GetProjectionMtx());
+			D3D11_VIEWPORT d3dViewport = pCamera->GetViewport();
 
-		//음 이건 화면을 찍은 점의 카메라 좌표계의 녀석이고
-		XMFLOAT3 xmf3PickPosition;
-		xmf3PickPosition.x = (((2.0f * p.x) / d3dViewport.Width) - 1) / xmf4x4Projection._11;
-		xmf3PickPosition.y = -(((2.0f * p.y) / d3dViewport.Height) - 1) / xmf4x4Projection._22;
-		xmf3PickPosition.z = 1.0f;
+			//음 이건 화면을 찍은 점의 카메라 좌표계의 녀석이고
+			XMFLOAT3 xmf3PickPosition;
+			xmf3PickPosition.x = (((2.0f * p.x) / d3dViewport.Width) - 1) / xmf4x4Projection._11;
+			xmf3PickPosition.y = -(((2.0f * p.y) / d3dViewport.Height) - 1) / xmf4x4Projection._22;
+			xmf3PickPosition.z = 1.0f;
 
-		XMVECTOR xmvPickPosition;
-		xmvPickPosition = XMLoadFloat3(&xmf3PickPosition);
-		XMMATRIX xmMtxViewInverse;
-		xmMtxViewInverse = XMMatrixInverse(nullptr, pCamera->GetViewMtx());
-		//picking pos에 camera inverse를 곱했으니 이건 picking pos의 world pos!
-		xmvPickPosition = XMVector3TransformCoord(xmvPickPosition, xmMtxViewInverse);
-		XMVECTOR xmvRayDir = xmvPickPosition - pCamera->GetPosition();
+			XMVECTOR xmvPickPosition;
+			xmvPickPosition = XMLoadFloat3(&xmf3PickPosition);
+			XMMATRIX xmMtxViewInverse;
+			xmMtxViewInverse = XMMatrixInverse(nullptr, pCamera->GetViewMtx());
+			//picking pos에 camera inverse를 곱했으니 이건 picking pos의 world pos!
+			//xmvPickPosition = XMVector3TransformCoord(xmvPickPosition, xmMtxViewInverse);
+			//XMVECTOR xmvRayDir = xmvPickPosition - pCamera->GetPosition();
 
-		CGameObject* pNearestObject = NULL;
-		float fHitDistance = FLT_MAX;
-		float fNearDistance = FLT_MAX;
-		pNearestObject = PickObjects(pCamera->GetPosition(), XMVector3Normalize(xmvRayDir), fHitDistance);
-		fNearDistance = fHitDistance;
+			//view space picking pos
+			xmvPickPosition = XMLoadFloat3(&xmf3PickPosition);//view space pick position
+			xmMtxViewInverse = XMMatrixInverse(nullptr, UPDATER->GetCamera()->GetViewMtx());
+			XMVECTOR xmvRayDir = XMVector3Normalize(xmvPickPosition - XMVectorSet(0, 0, 0, 1));//view space pick ray
 
+			CGameObject* pNearestObject = NULL;
+			float fHitDistance = FLT_MAX;
+			float fNearDistance = FLT_MAX;
+			pNearestObject = PickObjects(xmvPickPosition, xmvRayDir, fHitDistance);
+			//pNearestObject = PickObjects(pCamera->GetPosition(), XMVector3Normalize(xmvRayDir), fHitDistance);
+			fNearDistance = fHitDistance;
+		}
 		int mode = m_StempMode;
 		if (mode == STEMP_MODE_SET) {
 			if (INPUTMGR->MouseLeftDown() || INPUTMGR->MouseRightDown()) {
@@ -703,16 +711,6 @@ void CTerrainContainer::CreateTerrainMesh(CSpaceContainer* pSpaceContainer){
 }
 
 void CTerrainContainer::ChangeSpaceData(){
-	//1. space안의 모든 terrain제거
-	//End();
-
-	//for (auto pTerrain : m_vpTerrain) {
-	//	m_pSpaceContainer->RemoveObject(pTerrain);
-	//	pTerrain->End();
-	//	delete pTerrain;
-	//
-	//}
-	m_vpTerrain.clear();
 
 	//2. mesh/ buffer새로 제작
 	//Begin();
@@ -751,6 +749,19 @@ void CTerrainContainer::ChangeSpaceData(){
 	SetTessFacterSLP(space_lavel_pow);
 
 }
+void CTerrainContainer::DeleteAllTerrainObjects(){
+	//1. space안의 모든 terrain제거
+	//End();
+
+	for (auto pTerrain : m_vpTerrain) {
+		m_pSpaceContainer->RemoveObject(pTerrain);
+		pTerrain->End();
+		delete pTerrain;
+
+	}
+	m_vpTerrain.clear();
+}
+
 void CTerrainContainer::SetActive(bool b){
 	for (auto pTerrain : m_vpTerrain) {
 		pTerrain->SetActive(b);

@@ -274,7 +274,7 @@ void CResourceManager::CreateMeshs() {
 }
 void CResourceManager::CreateStempMeshs() {
 
-	RESOURCEMGR->CreateMultiMesh("../../Assets/Model/TestPlayer/test_player.gjm", "test_player");
+	//RESOURCEMGR->CreateMultiMesh("../../Assets/Model/TestPlayer/test_player.gjm", "test_player");
 	//vector<wstring> vFile;
 	//DIRECTORYFINDER->GetFiles(vFile, L"../../Assets/SceneResource", true, true, L".gjm");
 	//DIRECTORYFINDER->GetFiles(vFile, L"../../Assets/SceneResource", true, true, L".GJM");

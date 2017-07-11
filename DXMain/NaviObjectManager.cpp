@@ -70,7 +70,7 @@ void CNaviObjectManager::Render(){
 			BoundingOrientedBox obb;
 			obb.Center = pVertex->GetPosition();
 			obb.Extents = XMFLOAT3(1.f, 1.f, 1.f);
-			DEBUGER->RegistOBB(obb, UTAG_COLLISION);
+			DEBUGER->RegistOBB(obb, UTAG_PLAYER);
 		}
 
 		//navi mesh
@@ -79,7 +79,7 @@ void CNaviObjectManager::Render(){
 			int i = 0;
 			for (auto pVertex : m_vpNaviVertex) {
 				XMFLOAT3 vertex = pVertex->GetPosition();
-				pData[i++] = XMFLOAT4(vertex.x, vertex.y, vertex.z, 1);
+				pData[i++] = XMFLOAT4(vertex.x, vertex.y + 0.001, vertex.z, 1);
 			}
 
 			m_pGSNaviMeshVertexBuffer->Unmap();
@@ -183,18 +183,29 @@ void CNaviObjectManager::ResetVertexIndex(){
 }
 
 void CNaviObjectManager::DeleteVertex(int index) {
-	if (m_ControlVertexCount > 0) {
-		for (int i = 0; i < m_ControlVertexCount; ++i) {
-			if (m_ControlVertexs[i]->GetIndex() == index) {
-				m_ControlVertexCount--;
-				break;
-			}
-		}
-	}
+	//if (m_ControlVertexCount > 0) {
+	//	for (int i = 0; i < m_ControlVertexCount; ++i) {
+	//		if (m_ControlVertexs[i]->GetIndex() == index) {
+	//			m_ControlVertexCount--;
+	//			break;
+	//		}
+	//	}
+	//}
 
 	auto Iter = m_vpNaviVertex.begin();
 	for (auto pVertex : m_vpNaviVertex) {
 		if (pVertex->GetIndex() == index) {
+			for (int i = 0; i < m_ControlVertexCount; ++i) {
+				if (m_ControlVertexs[i]->GetIndex() == index) {
+					int max_controlvertex_index = m_ControlVertexCount - 1;
+					if (i != max_controlvertex_index) {
+						auto pTmp = m_ControlVertexs[i];
+						m_ControlVertexs[i] = m_ControlVertexs[max_controlvertex_index];
+						m_ControlVertexs[max_controlvertex_index] = pTmp;
+					}
+					m_ControlVertexCount--;
+				}
+			}
 			delete pVertex;
 			break;
 		}
@@ -371,7 +382,7 @@ void CNaviObjectManager::CreateNaviObject(){
 	//012 가 보이는 index라면!
 	//
 	XMVECTOR v = XMVector3Normalize(XMVector3Cross(p1-p0, p2-p0));
-	XMVECTOR look = XMVector3Normalize(UPDATER->GetCamera()->GetLook());
+	XMVECTOR look = XMVectorSet(0, -1, 0, 1);
 	XMFLOAT4 xmf4DotResult;
 	XMStoreFloat4(&xmf4DotResult, XMVector3Dot(v, look));
 	if (xmf4DotResult.x >= 0) {

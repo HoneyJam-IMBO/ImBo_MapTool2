@@ -92,10 +92,20 @@ void CRenderContainer::ClearVolatileResources(){
 
 bool CRenderContainer::CheckPickMesh(XMVECTOR xmvModelCameraStartPos, XMVECTOR xmvModelRayDir, float & distance){
 	bool bResult = false;
-	for (auto pMesh : m_vpMesh) {
-		if (pMesh->CheckPickMesh(xmvModelCameraStartPos, xmvModelRayDir, distance)) bResult = true;
-	}
+	float fHitDistance = FLT_MAX;
+	//	distance = fHitDistance;
+	float fNearHitDistance = FLT_MAX;
 
+	for (auto pMesh : m_vpMesh) {
+		if (pMesh->CheckPickMesh(xmvModelCameraStartPos, xmvModelRayDir, fHitDistance)) {
+			if (fNearHitDistance > fHitDistance) {
+				fNearHitDistance = fHitDistance;
+			}
+			bResult = true;
+			//break;
+		}
+	}
+	distance = fNearHitDistance;
 	return bResult;
 }
 

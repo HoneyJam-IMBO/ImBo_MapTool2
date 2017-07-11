@@ -72,6 +72,7 @@ void CUpdater::PhisicsUpdate(float fTimeElapsed){
 }
 
 void CUpdater::ChangeSceneContainers() {
+	if(m_pTerrainContainer)m_pTerrainContainer->DeleteAllTerrainObjects();
 	if (m_pSpaceContainer)m_pSpaceContainer->ChangeSpaceData();
 	if (m_pTerrainContainer) m_pTerrainContainer->ChangeSpaceData();
 
@@ -82,6 +83,7 @@ void CUpdater::ChangeSceneContainers() {
 
 void CUpdater::LoadSpaceInfo(){
 	//clear all objects
+	m_pTerrainContainer->DeleteAllTerrainObjects();
 	m_pSpaceContainer->ClearAllObjects();
 
 	//space info
@@ -89,6 +91,7 @@ void CUpdater::LoadSpaceInfo(){
 	float space_lv = IMPORTER->ReadFloat();
 	m_pSpaceContainer->SetSpaceSize(space_size);
 	m_pSpaceContainer->SetSpaceLevel(space_lv);
+
 	m_pSpaceContainer->ChangeSpaceData();
 
 	//terrain onoff/ skybox onoff
