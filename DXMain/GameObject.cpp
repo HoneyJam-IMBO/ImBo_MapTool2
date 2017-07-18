@@ -733,14 +733,14 @@ bool CGameObject::CheckPickObject(XMVECTOR xmvProjPickPos, XMVECTOR xmvProjRayDi
 		//위의 두 벡터 start pos, ray dir는 proj공간의 녀석들이다. 여기에 view mtx의 inverce를 곱하면 world가 나온다
 
 		//들어온건 world ray, world pos다.
-		if (m_pAnimater) {
+		if (m_pAnimater || m_pRenderContainer->GetMesh(0)->GetVertexCnt() < 5) {
 			XMVECTOR xmvWorldCameraStartPos = UPDATER->GetCamera()->GetPosition();
 			XMVECTOR xmvWorldPickPos = XMVector3TransformCoord(xmvProjPickPos, UPDATER->GetCamera()->GetWorldMtx());
 			XMVECTOR xmvWorldRayDir = XMVector3Normalize(xmvWorldPickPos - xmvWorldCameraStartPos);
 
 			BoundingBox BoundingBox;// = m_OriBoundingBox;
 			GetMainBoundingBox(BoundingBox);
-			return BoundingBox.Intersects(xmvWorldCameraStartPos, xmvWorldPickPos, distance);
+			return BoundingBox.Intersects(xmvWorldCameraStartPos, xmvWorldRayDir, distance);
 		}
 		
 		XMMATRIX xmmtxViewWorldInverce = UPDATER->GetCamera()->GetWorldMtx();

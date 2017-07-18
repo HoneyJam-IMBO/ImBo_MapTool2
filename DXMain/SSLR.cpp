@@ -78,7 +78,7 @@ void CSSLR::Excute( CCamera* pCamera, ID3D11RenderTargetView* pLightAccumRTV, ID
 	XMVECTOR vSunPos = fOffsetSunPos * vSunDir;
 	XMFLOAT3 xmf3Eye;
 	XMStoreFloat3(&xmf3Eye, pCamera->GetPosition());
-	XMVECTOR offset = XMVectorSet(xmf3Eye.x, 0.f, xmf3Eye.z, 0.f);
+	XMVECTOR offset = XMVectorSet(xmf3Eye.x, xmf3Eye.y, xmf3Eye.z, 0.f);
 	vSunPos += offset;
 	XMMATRIX mView = pCamera->GetViewMtx();
 	XMMATRIX mProj = pCamera->GetProjectionMtx();

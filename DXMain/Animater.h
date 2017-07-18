@@ -56,7 +56,14 @@ public:
 	int GetRHand() { return m_nRHandIndex; };
 	int GetLHand() { return m_nLHandIndex; };
 	int GetHead() { return m_nHeadIndex; }
+
+	void AddActiveOBB(CBoundingBox* pOBB) { m_lActiveBoundingBox.push_back(pOBB); };
+	list<CBoundingBox*>& GetAnimaterActiveOBBs() { return m_lActiveBoundingBox; }
 private:
+	//animater의 대표 obb list
+	list<CBoundingBox*> m_lActiveBoundingBox;
+	//animater의 대표 obb list
+
 	int m_nRHandIndex{ 0 };
 	int m_nLHandIndex{ 0 };
 	int m_nHeadIndex{ 0 };
