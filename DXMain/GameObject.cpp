@@ -854,7 +854,8 @@ void CGameObject::CreateObjectUI(){
 	TWBARMGR->AddMinMaxBarCB(barName, "Control", "ALL_UTAG", SetALLUTAGCallback, GetUTAGCallback, this,
 		0.f, maxUtag, 1.f);
 	TWBARMGR->AddRotationBar(barName, "Rotation World", "Rotate", this);
-	TWBARMGR->AddPositionBar(barName, "Position", "Position", this, 0.f, UPDATER->GetSpaceContainer()->GetSize() - 1.0f, 1.0f);
+	int size = UPDATER->GetSpaceContainer()->GetSize();
+	TWBARMGR->AddPositionBar(barName, "Position", "Position", this, -size, UPDATER->GetSpaceContainer()->GetSize() - 1.0f, 1.0f);
 	TWBARMGR->AddScaleBar(barName, "Scale", "Scale", this, 0.1f, 100.f, 0.1f);
 
 	TWBARMGR->AddMinMaxBarRW(barName, "Material", "Material", &fMaterial, 0.0f, 2.f, 0.05f);

@@ -33,7 +33,7 @@ void CTerrain::SetTerrainContainer(CTerrainContainer * pTerrainContainer){
 	m_pTerrainContainer = pTerrainContainer;
 }
 
-#define OFFSET 10
+#define OFFSET 5
 
 bool CTerrain::CheckPickObject(XMVECTOR xmvProjCameraStartPos, XMVECTOR xmvProjRayDir, float & distance){
 	float fHitDistance = FLT_MAX;

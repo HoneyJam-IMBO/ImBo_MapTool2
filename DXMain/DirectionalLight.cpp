@@ -76,7 +76,7 @@ void CDirectionalLight::PickingProc(){
 
 	TWBARMGR->AddColorBar4F("PickingBar", "Light", "DirColor", &m_Directional_AmbientData.m_DirLightColor);
 	TWBARMGR->AddMinMaxBarRW("PickingBar", "Light", "DirPosOffset", &m_fOffsetLength,
-		10.f, 1000.f, 0.1f);
+		10.f, 10000.f, 0.1f);
 
 	RENDERER->GetShadow()->CreateShadowControlUI();
 	//TWBARMGR->AddColorBar(f"PickingBar", "Light", "DirPower", &m_Directional_AmbientData.m_DirLightPower);
