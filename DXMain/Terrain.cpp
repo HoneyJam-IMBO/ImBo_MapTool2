@@ -89,8 +89,6 @@ bool CTerrain::CheckPickObject(XMVECTOR xmvProjCameraStartPos, XMVECTOR xmvProjR
 
 		//XMStoreFloat4(&result, XMVector3Length(xmvTerrainPickPos - xmvWorldRayStart));
 		//distance = result.x;
-
-		m_pTerrainContainer->SetPicpos(xmf3TerrainPickPos.x, xmf3TerrainPickPos.z);
 	}
 	else {
 

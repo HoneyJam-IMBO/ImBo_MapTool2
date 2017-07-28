@@ -260,40 +260,7 @@ void CTerrainContainer::Update( CCamera* pCamera) {
 
 	if (!pCamera) return;
 	if (m_bActive) {
-		if (GLOBALVALUEMGR->GetToolMode() != TOOL_MODE_NAVIMESH) {
-			POINT p = INPUTMGR->GetMousePoint();
-
-			//Get screen pos -> Camera pos
-			XMFLOAT4X4 xmf4x4Projection;
-			XMStoreFloat4x4(&xmf4x4Projection, pCamera->GetProjectionMtx());
-			D3D11_VIEWPORT d3dViewport = pCamera->GetViewport();
-
-			//음 이건 화면을 찍은 점의 카메라 좌표계의 녀석이고
-			XMFLOAT3 xmf3PickPosition;
-			xmf3PickPosition.x = (((2.0f * p.x) / d3dViewport.Width) - 1) / xmf4x4Projection._11;
-			xmf3PickPosition.y = -(((2.0f * p.y) / d3dViewport.Height) - 1) / xmf4x4Projection._22;
-			xmf3PickPosition.z = 1.0f;
-
-			XMVECTOR xmvPickPosition;
-			xmvPickPosition = XMLoadFloat3(&xmf3PickPosition);
-			XMMATRIX xmMtxViewInverse;
-			xmMtxViewInverse = XMMatrixInverse(nullptr, pCamera->GetViewMtx());
-			//picking pos에 camera inverse를 곱했으니 이건 picking pos의 world pos!
-			//xmvPickPosition = XMVector3TransformCoord(xmvPickPosition, xmMtxViewInverse);
-			//XMVECTOR xmvRayDir = xmvPickPosition - pCamera->GetPosition();
-
-			//view space picking pos
-			xmvPickPosition = XMLoadFloat3(&xmf3PickPosition);//view space pick position
-			xmMtxViewInverse = XMMatrixInverse(nullptr, UPDATER->GetCamera()->GetViewMtx());
-			XMVECTOR xmvRayDir = XMVector3Normalize(xmvPickPosition - XMVectorSet(0, 0, 0, 1));//view space pick ray
-
-			CGameObject* pNearestObject = NULL;
-			float fHitDistance = FLT_MAX;
-			float fNearDistance = FLT_MAX;
-			pNearestObject = PickObjects(xmvPickPosition, xmvRayDir, fHitDistance);
-			//pNearestObject = PickObjects(pCamera->GetPosition(), XMVector3Normalize(xmvRayDir), fHitDistance);
-			fNearDistance = fHitDistance;
-		}
+		
 		int mode = m_StempMode;
 		if (mode == STEMP_MODE_SET) {
 			if (INPUTMGR->MouseLeftDown() || INPUTMGR->MouseRightDown()) {

@@ -134,7 +134,7 @@ float4 main(DS_OUT In) : SV_TARGET
 			// Find the intersection between the ray and the scene
 			// The intersection happens between two positions on the oposite sides of the plane
 			float d = rayPlane.w - dot(rayPlane.xyz, curPos);
-			if (d >= minDepthBias && d < maxDepthBias)
+			if (d >= minDepthBias/* && d < maxDepthBias*/)
 			{
 				// Calculate the actual position on the ray for the given depth value
 				float3 vsFinalPos = vsPos + (vsReflect / abs(vsReflect.z)) * abs(curDepthLin - vsPos.z + minDepthBias);

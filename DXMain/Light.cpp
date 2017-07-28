@@ -15,10 +15,18 @@ void CLight::SetBufferInfo(void** ppMappedResources, int& nInstance,  CCamera* p
 
 }
 
-bool CLight::CheckPickObject(XMVECTOR xmvWorldCameraStartPos, XMVECTOR xmvRayDir, float & distance){
-	BoundingBox BoundingBox;
+bool CLight::CheckPickObject(XMVECTOR xmvProjPickPos, XMVECTOR xmvRayDir, float & distance){
+	XMVECTOR xmvWorldCameraStartPos = UPDATER->GetCamera()->GetPosition();
+	XMVECTOR xmvWorldPickPos = XMVector3TransformCoord(xmvProjPickPos, UPDATER->GetCamera()->GetWorldMtx());
+	XMVECTOR xmvWorldRayDir = XMVector3Normalize(xmvWorldPickPos - xmvWorldCameraStartPos);
+
+	BoundingBox BoundingBox;// = m_OriBoundingBox;
 	GetMainBoundingBox(BoundingBox);
-	return BoundingBox.Intersects(xmvWorldCameraStartPos, xmvRayDir, distance);
+	return BoundingBox.Intersects(xmvWorldCameraStartPos, xmvWorldRayDir, distance);
+
+	//BoundingBox BoundingBox;
+	//GetMainBoundingBox(BoundingBox);
+	//return BoundingBox.Intersects(xmvWorldCameraStartPos, xmvRayDir, distance);
 	//return false;
 }
 

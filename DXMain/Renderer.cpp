@@ -169,20 +169,22 @@ void CRenderer::Render( CCamera* pCamera) {
 	//object
 	//object positioning °´Ã¼ ·£´õ
 	if (GLOBALVALUEMGR->GetToolMode() == TOOL_MODE_OBJECTPOSITIONING) {
-		
 		if (GLOBALVALUEMGR->GetPositioningObject()) {
-			if (UPDATER->GetTerrainContainer()) {
-				XMFLOAT2 xmf2CurPicPos = UPDATER->GetTerrainContainer()->GetCurPickPos();
-				float fHeight = UPDATER->GetTerrainContainer()->GetHeight(xmf2CurPicPos);
-
-				GLOBALVALUEMGR->GetPositioningObject()->SetPosition(XMVectorSet(xmf2CurPicPos.x, fHeight, xmf2CurPicPos.y, 1.0));
-				GLOBALVALUEMGR->GetPositioningObject()->RegistToContainer();
-			}
-			else {
-				GLOBALVALUEMGR->GetPositioningObject()->SetPosition(XMVectorSet(UPDATER->GetSpaceContainer()->GetSpaceSize()/2.f, 0, UPDATER->GetSpaceContainer()->GetSpaceSize() / 2.f, 1.0));
-				GLOBALVALUEMGR->GetPositioningObject()->RegistToContainer();
-			}
+			GLOBALVALUEMGR->GetPositioningObject()->RegistToContainer();
 		}
+		//if (GLOBALVALUEMGR->GetPositioningObject()) {
+		//	if (UPDATER->GetTerrainContainer()) {
+		//		XMFLOAT2 xmf2CurPicPos = UPDATER->GetTerrainContainer()->GetCurPickPos();
+		//		float fHeight = UPDATER->GetTerrainContainer()->GetHeight(xmf2CurPicPos);
+		//
+		//		GLOBALVALUEMGR->GetPositioningObject()->SetPosition(XMVectorSet(xmf2CurPicPos.x, fHeight, xmf2CurPicPos.y, 1.0));
+		//		GLOBALVALUEMGR->GetPositioningObject()->RegistToContainer();
+		//	}
+		//	else {
+		//		GLOBALVALUEMGR->GetPositioningObject()->SetPosition(XMVectorSet(UPDATER->GetSpaceContainer()->GetSpaceSize()/2.f, 0, UPDATER->GetSpaceContainer()->GetSpaceSize() / 2.f, 1.0));
+		//		
+		//	}
+		//}
 	}
 	UPDATER->GetSpaceContainer()->PrepareRender(pCamera);
 

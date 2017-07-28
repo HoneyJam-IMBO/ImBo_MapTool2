@@ -37,7 +37,7 @@ void CSpace::Begin(CSpaceContainer * pSpaceContainer, UINT size, int lv, XMVECTO
 		float fy = static_cast<float>(m_pSpaceContainer->GetSpaceSize());
 		float fz = static_cast<float>(m_pSpaceContainer->GetOneSpaceSize());
 
-		BoundingBox::CreateFromPoints(m_OriBoundingBox, XMVectorSet(0.f, 0.f, 0.f, 0.f), XMVectorSet(fx, fy, fz, 0.f));
+		BoundingBox::CreateFromPoints(m_OriBoundingBox, XMVectorSet(0.f, -fy, 0.f, 0.f), XMVectorSet(fx, fy, fz, 0.f));
 		
 		//SetRenderContainer(pSeller);//그림을 그릴 수도 있으니 RenderContainer set
 		return;
@@ -346,6 +346,7 @@ CGameObject * CSpace::PickObject(XMVECTOR xmvWorldCameraStartPos, XMVECTOR xmvRa
 		for (auto pObject : Objects.second) {
 			if (pObject->CheckPickObject(xmvWorldCameraStartPos, xmvRayDir, fHitDistance)) {//ray와 충돌했다면
 				if (fNearHitDistance > fHitDistance) {//이전의 가장 가까운 녀석과 비교
+					fNearHitDistance = fHitDistance;
 					distance = fHitDistance;//더 가까우면 가장 가까운 객체 변경
 					pObj = pObject;
 				}
