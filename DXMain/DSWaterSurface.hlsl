@@ -28,6 +28,7 @@ struct DS_OUT {
 	float3 positionW : POSITION;
 	float2 texCoord : TEXCOORD0;
 	float3 normalW	: TEXCOORD1;
+	//float2 RefractionMapSamplingPos : TEXCOORD3;
 };
 // 패치 상수 데이터를 출력합니다.
 struct TERRAIN_HS_CONSTANT

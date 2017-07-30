@@ -112,8 +112,11 @@ void CCamera::UpdateReflectionViewMtx(XMVECTOR xmvReflectePlane)
 
 	SetLookAt(xmvRefPos, xmvRefLook, xmvRefUp);
 
+
 	UpdateViewMtx();
 	UpdateShaderState();
+	
+	XMStoreFloat4x4(&m_xmf4x4ReflectionView, GetViewMtx());
 }
 
 bool CCamera::IsInFrustum(BoundingBox& boundingBox) {

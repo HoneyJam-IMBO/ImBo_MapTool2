@@ -6,7 +6,10 @@ struct Material {
 	float specExp;
 	float specIntensity;
 };
-
+cbuffer gBigWaterInfo : register(b0) {
+	uint flag : packoffset(c0);
+	float height : packoffset(c1);
+}
 cbuffer gMaterialInfo : register(b3) {
 	float4 gMaterialColor : packoffset(c0);
 	float gSpecExp : packoffset(c1.x);
@@ -41,6 +44,9 @@ struct PixelShaderInput
 // (보간된) 색 데이터에 대한 통과 함수입니다.
 PS_GBUFFER_OUT main(PixelShaderInput input)
 {
+	if (flag == 1) {
+		if (height > input.positionW.y) discard;
+	}
 	PS_GBUFFER_OUT output = (PS_GBUFFER_OUT)0;
 	float4 cCPColor = gtxtCP.Sample(gssWRAP_LINEAR, input.uv);
 	clip(cCPColor.g < 0.05f ? -1 : 1);

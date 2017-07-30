@@ -197,7 +197,6 @@ void CRenderer::Render( CCamera* pCamera) {
 	DEBUGER->start_Timemeasurement();
 	pCamera->SetShaderState();
 	m_pObjectRenderer->Excute(pCamera);
-	m_pBigWaterRenderer->RenderBigWater(pCamera, m_pd3drtvColorSpecInt, m_pd3ddsvDepthStencil);
 	
 	DEBUGER->end_Timemeasurement(L"object_render");
 	//OBJECT RENDER
@@ -233,6 +232,10 @@ void CRenderer::Render( CCamera* pCamera) {
 	}
 	DEBUGER->end_Timemeasurement(L"light");
 	//LIGHT RENDER
+
+	//water
+	m_pBigWaterRenderer->RenderBigWater(pCamera, m_pd3drtvLight, m_pd3ddsvReadOnlyDepthStencil);
+	//water
 
 	//post processing
 	if (m_bBloom) {
@@ -440,10 +443,10 @@ bool CRenderer::CreateRenderTargetView() {
 		ReleaseForwardRenderTargets();
 
 		//--------------------------------------Scene0 DSV Create-----------------------------------------//
-		d3dTexture2DDesc.Format = DXGI_FORMAT_R32_TYPELESS;
-		d3dDepthStencilViewDesc.Format = DXGI_FORMAT_D32_FLOAT;
-		d3dSRVDesc.Format = DXGI_FORMAT_R32_FLOAT;
-		d3dUAVDesc.Format = DXGI_FORMAT_R32_FLOAT;
+		d3dTexture2DDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;
+		d3dDepthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		d3dSRVDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+		d3dUAVDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
 		d3dTexture2DDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_DEPTH_STENCIL;
 		GLOBALVALUEMGR->GetDevice()->CreateTexture2D(&d3dTexture2DDesc, nullptr, &m_pd3dtxtDepthStencil);
 		GLOBALVALUEMGR->GetDevice()->CreateDepthStencilView(m_pd3dtxtDepthStencil, &d3dDepthStencilViewDesc, &m_pd3ddsvDepthStencil);

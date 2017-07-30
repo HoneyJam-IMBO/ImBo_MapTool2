@@ -26,6 +26,10 @@ struct Material {
 	float specExp;
 	float specIntensity;
 };
+cbuffer gBigWaterInfo : register(b0) {
+	uint flag : packoffset(c0);
+	float height : packoffset(c1);
+}
 
 cbuffer gMaterialInfo : register(b3) {
 	float4 gMaterialColor : packoffset(c0);
@@ -51,6 +55,7 @@ struct DS_OUT {
 	//float3 bitangentW : BITANGET;
 };
 float4 RenderPickPos(float2 texCoord) {
+	
 	//picpos render
 	float2 minPos = gPickpos - float2(gRenderRadius, gRenderRadius);
 	float2 maxPos = gPickpos + float2(gRenderRadius, gRenderRadius);
@@ -66,6 +71,10 @@ float4 RenderPickPos(float2 texCoord) {
 	return cColor;
 }
 PS_GBUFFER_OUT main(DS_OUT input) {
+	if (flag == 1) {
+		if (height > input.positionW.y) discard;
+	}
+
 	PS_GBUFFER_OUT output = (PS_GBUFFER_OUT)0;
 
 	//set base color
