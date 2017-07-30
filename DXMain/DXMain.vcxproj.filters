@@ -447,6 +447,18 @@
     <Filter Include="소스 파일\44.GameObject\Terrain\NaviObject\NaviVertex">
       <UniqueIdentifier>{e3cc96eb-9f02-4136-8e01-aa5c099e83cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\SingleTon\Renderer\xx. BigWaterRenderer">
+      <UniqueIdentifier>{5ec8ecb4-5034-4c0f-806c-93319f3a3362}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\Water">
+      <UniqueIdentifier>{6f97a0f8-e798-437e-a8c7-0e2b0db26810}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\Water\WaterPlane">
+      <UniqueIdentifier>{03935afb-792d-4a65-8c51-951f9c5872ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\Water\WaterSurface">
+      <UniqueIdentifier>{785e4ce6-0d2c-4315-82fe-304a3fcaa48d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -788,6 +800,9 @@
     <ClInclude Include="NaviVertex.h">
       <Filter>소스 파일\44.GameObject\Terrain\NaviObject\NaviVertex</Filter>
     </ClInclude>
+    <ClInclude Include="BigWaterRenderer.h">
+      <Filter>소스 파일\SingleTon\Renderer\xx. BigWaterRenderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1117,6 +1132,9 @@
     <ClCompile Include="NaviVertex.cpp">
       <Filter>소스 파일\44.GameObject\Terrain\NaviObject\NaviVertex</Filter>
     </ClCompile>
+    <ClCompile Include="BigWaterRenderer.cpp">
+      <Filter>소스 파일\SingleTon\Renderer\xx. BigWaterRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DXMain.rc">
@@ -1329,6 +1347,30 @@
     </FxCompile>
     <FxCompile Include="GSNaviObject.hlsl">
       <Filter>HLSL\NaviObject</Filter>
+    </FxCompile>
+    <FxCompile Include="VSWaterPlane.hlsl">
+      <Filter>HLSL\Water\WaterPlane</Filter>
+    </FxCompile>
+    <FxCompile Include="DSWaterPlane.hlsl">
+      <Filter>HLSL\Water\WaterPlane</Filter>
+    </FxCompile>
+    <FxCompile Include="HSWaterPlane.hlsl">
+      <Filter>HLSL\Water\WaterPlane</Filter>
+    </FxCompile>
+    <FxCompile Include="PSWaterPlane.hlsl">
+      <Filter>HLSL\Water\WaterPlane</Filter>
+    </FxCompile>
+    <FxCompile Include="HSWaterSurface.hlsl">
+      <Filter>HLSL\Water\WaterSurface</Filter>
+    </FxCompile>
+    <FxCompile Include="DSWaterSurface.hlsl">
+      <Filter>HLSL\Water\WaterSurface</Filter>
+    </FxCompile>
+    <FxCompile Include="VSWaterSurface.hlsl">
+      <Filter>HLSL\Water\WaterSurface</Filter>
+    </FxCompile>
+    <FxCompile Include="PSWaterSurface.hlsl">
+      <Filter>HLSL\Water\WaterSurface</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

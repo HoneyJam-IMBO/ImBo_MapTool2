@@ -215,6 +215,9 @@ void CSceneMain::CreatePositioningObject() {
 	pWater->Begin();
 	m_vpObjectList.push_back(pWater);
 
+	CGameObject* pBigWater = new CGameObject("bigwater", tag::TAG_BIGWATER);
+	pBigWater->Begin();
+	m_vpObjectList.push_back(pBigWater);
 }
 void CSceneMain::CreatePositioningStempObject(){
 	GLOBALVALUEMGR->GetPickingObjectOriginVectors().clear();
@@ -580,8 +583,9 @@ void CSceneMain::Animate(float fTimeElapsed) {
 
 				//proc picking NaviObjectManager
 				//CNaviObjectManager::PickingProc(pickingPosition);
-				GLOBALVALUEMGR->GetPositioningObject()->SetPosition(XMVectorSet(pickingPosition.x, pickingPosition.y, pickingPosition.z, 1.0));
-				GLOBALVALUEMGR->GetPositioningObject()->RegistToContainer();
+				auto pObject = GLOBALVALUEMGR->GetPositioningObject();
+				pObject->SetPosition(XMVectorSet(pickingPosition.x, pickingPosition.y, pickingPosition.z, 1.0));
+				pObject->RegistToContainer();
 			}
 
 			//if (UPDATER->GetTerrainContainer()) {
@@ -1106,6 +1110,10 @@ void CSceneMain::ObjectPositioning(){
 		UPDATER->GetSpaceContainer()->AddObject(pPositioningCapsuleLight);
 	}
 	else {
+		if (GLOBALVALUEMGR->GetPositioningObject()->GetName() == "bigwater") {
+			if (RENDERER->GetBigWaterRenderer()->GetbBigWater()) return;//큰 물이 존재하면 return
+			RENDERER->GetBigWaterRenderer()->SetbBigWater(true);
+		}
 		CGameObject* pObject = nullptr;
 		//if(GLOBALVALUEMGR->GetPositioningObject()->GetAnimater())
 		pObject = new CGameObject(GLOBALVALUEMGR->GetPositioningObject()->GetName(), GLOBALVALUEMGR->GetPositioningObject()->GetTag());

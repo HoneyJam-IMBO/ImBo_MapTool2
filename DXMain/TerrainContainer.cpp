@@ -321,7 +321,7 @@ CGameObject * CTerrainContainer::PickObjects(XMVECTOR xmvWorldCameraStartPos, XM
 
 		}
 	}
-	//return pObj;
+	return pObj;
 }
 
 //터레인 추가분

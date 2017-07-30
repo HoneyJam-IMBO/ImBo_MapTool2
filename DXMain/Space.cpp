@@ -221,7 +221,9 @@ void CSpace::PrepareRender(UINT renderFlag){
 				if (renderFlag & TAG_LIGHT) {
 					if (pObject->GetTag() == TAG_LIGHT) pObject->RegistToContainer();
 				}
-			
+				if (renderFlag & TAG_BIGWATER) {
+					if (pObject->GetTag() == TAG_BIGWATER) pObject->RegistToContainer();
+				}
 		}
 	}//end for
 }
@@ -263,6 +265,11 @@ void CSpace::PrepareRender( CCamera* pCamera, UINT renderFlag){
 					}
 				}
 				if (mlp.first == TAG_LIGHT) {
+					for (auto pObject : mlp.second) {
+						pObject->RegistToContainer();
+					}
+				}
+				if (mlp.first == TAG_BIGWATER) {
 					for (auto pObject : mlp.second) {
 						pObject->RegistToContainer();
 					}

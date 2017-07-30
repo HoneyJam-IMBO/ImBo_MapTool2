@@ -87,15 +87,33 @@ void CCamera::UpdateViewMtx() {
 	m_xmf3Look = XMFLOAT3(m_xmf4x4View._13, m_xmf4x4View._23, m_xmf4x4View._33);
 }
 
-void CCamera::UpdateReflectionViewMtx()
+void CCamera::UpdateReflectionViewMtx(XMVECTOR xmvReflectePlane)
 {
-	XMFLOAT3 xmReflePos = { m_xmf3Pos.x, -m_xmf3Pos.y, m_xmf3Pos.z };
-	XMFLOAT3 xmRefleAt = { m_xmf3At.x, -m_xmf3At.y, m_xmf3At.z };
-	XMStoreFloat4x4(&m_xmf4x4ReflectionView,
-		XMMatrixLookAtLH(XMLoadFloat3(&xmReflePos),
-			XMVectorAdd(XMLoadFloat3(&xmReflePos), XMLoadFloat3(&xmRefleAt)),
-			XMLoadFloat3(&m_xmf3UpDefault)));
+	/*
+	ref는 position을 반사시킨 위치로 이동하는 것이다. 
+	*/
+	XMVECTOR xmvPos = XMLoadFloat3(&m_xmf3Pos);
+	XMVECTOR xmvLook = XMLoadFloat3(&m_xmf3At);//카메라 기준 look벡터
+	XMVECTOR xmvUp = XMLoadFloat3(&m_xmf3Up);
 
+	XMVECTOR xmvLookAt = xmvPos + xmvLook;//pos + look은 내가 보고있는 방향의 살짝 앞 포지션
+	XMVECTOR xmvUpAt = xmvPos + xmvUp;//pos + look은 내가 보고있는 방향의 살짝 앞 포지션
+
+
+	XMMATRIX xmmtxReflect = XMMatrixReflect(xmvReflectePlane);
+	XMMATRIX xmmtxReflectCamera = XMMatrixMultiply(GetWorldMtx(), xmmtxReflect);//카메라와 ref를 곱해서 카메라를 이동시킨다.
+
+	XMVECTOR xmvRefPos = XMVector3Transform(xmvPos, xmmtxReflect);
+	XMVECTOR xmvRefLookAt = XMVector3Transform(xmvLookAt, xmmtxReflect);//내가 보고있는 방향의 살짝 앞 포지션
+	XMVECTOR xmvRefUpAt = XMVector3Transform(xmvUpAt, xmmtxReflect);
+
+	XMVECTOR xmvRefLook = xmvRefLookAt - xmvRefPos;
+	XMVECTOR xmvRefUp = xmvRefUpAt - xmvRefPos;
+
+	SetLookAt(xmvRefPos, xmvRefLook, xmvRefUp);
+
+	UpdateViewMtx();
+	UpdateShaderState();
 }
 
 bool CCamera::IsInFrustum(BoundingBox& boundingBox) {

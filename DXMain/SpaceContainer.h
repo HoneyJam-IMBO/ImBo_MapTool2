@@ -14,8 +14,8 @@ public:
 	//space controller
 	void Animate(float fTimeElapsed);
 	void PhisicsUpdate(float fTimeElapsed);
-	void PrepareRenderOneSpace( CCamera* pCamera, UINT renderFlag = TAG_TERRAIN | TAG_STATIC_OBJECT | TAG_DYNAMIC_OBJECT | TAG_LIGHT, int render_space = -1);
-	void PrepareRender( CCamera* pCamera, UINT renderFlag = TAG_TERRAIN | TAG_STATIC_OBJECT | TAG_DYNAMIC_OBJECT | TAG_LIGHT | TAG_REFLECTION);
+	void PrepareRenderOneSpace( CCamera* pCamera, UINT renderFlag = TAG_TERRAIN | TAG_STATIC_OBJECT | TAG_DYNAMIC_OBJECT | TAG_LIGHT | TAG_BIGWATER, int render_space = -1);
+	void PrepareRender( CCamera* pCamera, UINT renderFlag = TAG_TERRAIN | TAG_STATIC_OBJECT | TAG_DYNAMIC_OBJECT | TAG_LIGHT | TAG_REFLECTION | TAG_BIGWATER);
 	//animate하다가 해당 공간을 벗어난 객체 임시 저장소
 	void AddBlockObjectList(CGameObject* pObject);
 	void AddObject(CGameObject* pObject);

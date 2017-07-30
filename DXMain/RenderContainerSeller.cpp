@@ -115,6 +115,15 @@ bool CRenderContainerSeller::Begin(){
 	m_mTagRenderContainer[t][object_name]->AddInstanceBuffer(RESOURCEMGR->GetBuffer("DEFAULTIB"));
 	m_mTagRenderContainer[t][object_name]->Begin();
 
+	t = tag::TAG_BIGWATER;
+	object_name = "bigwater";
+	m_mTagRenderContainer[t][object_name] = new CRenderContainer();
+	m_mTagRenderContainer[t][object_name]->AddMesh(RESOURCEMGR->GetMesh("Water", 0));
+	m_mTagRenderContainer[t][object_name]->SetShader(RESOURCEMGR->GetRenderShader("WaterPlane"));
+	m_mTagRenderContainer[t][object_name]->AddMaterial(RESOURCEMGR->GetMaterial("Terrain"));
+	m_mTagRenderContainer[t][object_name]->AddInstanceBuffer(RESOURCEMGR->GetBuffer("DEFAULTIB"));
+	m_mTagRenderContainer[t][object_name]->Begin();
+
 	t = tag::TAG_SSRF;
 	object_name = "SSRF";
 	m_mTagRenderContainer[t][object_name] = new CRenderContainer();

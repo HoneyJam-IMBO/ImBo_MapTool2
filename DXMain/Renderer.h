@@ -7,6 +7,7 @@
 #include "TerrainContainer.h"
 #include "SkyBoxContainer.h"
 #include "ObjectRenderer.h"
+#include "BigWaterRenderer.h"
 #include "AORenderer.h"
 #include "LightRenderer.h"
 #include "BloomDownScale.h"
@@ -46,6 +47,7 @@ public:
 	CRenderContainer* GetTerrainRenderContainer() { return m_pObjectRenderer->GetTerrainRenderContainer(); }
 	CRenderContainer* GetSkyBoxRenderContainer() { return m_pObjectRenderer->GetSkyBoxRenderContainer(); }
 	CObjectRenderer* GetObjectRenderer() { return m_pObjectRenderer; }
+	CBigWaterRenderer* GetBigWaterRenderer() { return m_pBigWaterRenderer; }
 	CShadow* GetShadow() { return m_pShadow; }
 
 	void SaveEffectInfo(wstring wsOutputPath, wstring wsSceneName);
@@ -101,6 +103,7 @@ private:
 
 	//-------------------------layer-------------------------
 	CObjectRenderer* m_pObjectRenderer{ nullptr };
+	CBigWaterRenderer* m_pBigWaterRenderer{ nullptr };
 	CAORenderer* m_pAORenderer{ nullptr };
 	CLightRenderer* m_pLightRenderer{ nullptr };
 	CSSRF* m_pRefrectionRenderer{ nullptr };

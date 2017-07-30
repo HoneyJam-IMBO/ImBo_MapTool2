@@ -85,7 +85,7 @@ void CObjectRenderer::Excute( CCamera* pCamera){
 		m_pTerrainRenderContainer->Render(pCamera);
 	}
 
-
+	
 	for (auto RenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_DYNAMIC_OBJECT]) {
 		RenderContainer.second->Render(pCamera);
 	}
@@ -132,6 +132,7 @@ void CObjectRenderer::RenderSkyBox(){
 	//GLOBALVALUEMGR->GetDeviceContext()->OMSetDepthStencilState(m_pd3dTempDepthStencilState, m_TempStencil);
 
 }
+
 
 CObjectRenderer::CObjectRenderer() : DXObject("objectrenderer"){
 

@@ -20,6 +20,7 @@ public:
 
 	CRenderContainer* GetSkyBoxRenderContainer() { return m_pSkyBoxRenderContainer; }
 	CRenderContainer* GetTerrainRenderContainer() { return m_pTerrainRenderContainer; }
+
 private:
 	ID3D11RasterizerState* m_pTestRSState{ nullptr };
 

@@ -54,6 +54,8 @@ bool CRenderer::Begin() {
 	//layer
 	m_pObjectRenderer = new CObjectRenderer();
 	m_pObjectRenderer->Begin();
+	m_pBigWaterRenderer = new CBigWaterRenderer();
+	m_pBigWaterRenderer->Begin();
 	m_pAORenderer = new CAORenderer();
 	m_pAORenderer->Begin();
 
@@ -99,6 +101,10 @@ bool CRenderer::End() {
 	if (m_pObjectRenderer) {
 		m_pObjectRenderer->End();
 		delete m_pObjectRenderer;
+	}
+	if (m_pBigWaterRenderer) {
+		m_pBigWaterRenderer->End();
+		delete m_pBigWaterRenderer;
 	}
 	if (m_pAORenderer) {
 		m_pAORenderer->End();
@@ -191,7 +197,7 @@ void CRenderer::Render( CCamera* pCamera) {
 	DEBUGER->start_Timemeasurement();
 	pCamera->SetShaderState();
 	m_pObjectRenderer->Excute(pCamera);
-
+	m_pBigWaterRenderer->RenderBigWater(pCamera, m_pd3drtvColorSpecInt, m_pd3ddsvDepthStencil);
 	
 	DEBUGER->end_Timemeasurement(L"object_render");
 	//OBJECT RENDER
@@ -523,6 +529,7 @@ bool CRenderer::CreateRenderTargetView() {
 		////lighted colortextureÁ¦ÀÛ
 	}
 	m_pAORenderer->ResizeBuffer();
+	m_pBigWaterRenderer->ResizeBuffer();
 	m_pRefrectionRenderer->ResizeBuffer();
 	m_pBloomDownScale->ResizeBuffer();
 	m_pBloom->ResizeBuffer();
