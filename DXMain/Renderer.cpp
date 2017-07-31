@@ -702,7 +702,7 @@ void CRenderer::LoadEffectInfo(wstring wsOutputPath, wstring wsSceneName){
 	m_pRefrectionRenderer->SetNumStepScale(fNumStepScale);
 
 	m_pShadow->LoadShadow(wsOutputPath, wsSceneName);
-	m_pBigWaterRenderer->LoadBigWaterInfo(wsOutputPath, wsSceneName);
+	m_pBigWaterRenderer->LoadBigWaterInfo();
 }
 
 CRenderer::CRenderer() :CSingleTonBase<CRenderer>("rendereringleton") {

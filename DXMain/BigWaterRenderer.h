@@ -65,7 +65,7 @@ public:
 	void SetbBigWater(bool b) { m_bBigWater = b; }
 	bool GetbBigWater() { return m_bBigWater; }
 
-	void LoadBigWaterInfo(wstring wsOutputPath, wstring wsSceneName) {};
+	void LoadBigWaterInfo();
 	void SaveBigWaterInfo();
 private:
 	bool m_bBigWater{ false };

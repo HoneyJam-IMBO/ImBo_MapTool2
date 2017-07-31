@@ -148,8 +148,8 @@ bool CBigWaterRenderer::Begin()
 	m_pWaterInfoPSBuffer = CBuffer::CreateConstantBuffer(1, sizeof(stBigWaterInfo), 0, BIND_PS, NULL);
 	m_pWaterColor = CBuffer::CreateConstantBuffer(1, sizeof(XMFLOAT4), 0, BIND_PS, NULL);
 
-	m_pWaterBaseBumpMap = CTexture::CreateTexture(L"../../Assets/water_bump_map01.jpg", 5, BIND_PS);
-	m_pWaterDetailBumpMap = CTexture::CreateTexture(L"../../Assets/water_bump_map03.jpg", 6, BIND_PS);
+	m_pWaterBaseBumpMap = CTexture::CreateTexture(L"../../Assets/Water/water_bump_map01.jpg", 5, BIND_PS);
+	m_pWaterDetailBumpMap = CTexture::CreateTexture(L"../../Assets/Water/water_bump_map03.jpg", 6, BIND_PS);
 	return true;
 }
 
@@ -196,12 +196,79 @@ void CBigWaterRenderer::RenderBigWater(CCamera* pCamera, ID3D11RenderTargetView*
 	}
 }
 
-void CBigWaterRenderer::SaveBigWaterInfo(){
-	EXPORTER->WriteBool(m_bBigWater);
+void CBigWaterRenderer::LoadBigWaterInfo(){
+	/*
+	//if(GLOBALVALUEMGR->GetPositioningObject()->GetAnimater())
+	pObject = new CGameObject(GLOBALVALUEMGR->GetPositioningObject()->GetName(), GLOBALVALUEMGR->GetPositioningObject()->GetTag());
+	pObject->Begin();
+	pObject->SetWorldMtx(GLOBALVALUEMGR->GetPositioningObject()->GetWorldMtx());
+	UPDATER->GetSpaceContainer()->AddObject(pObject);
+	*/
+
+	m_bBigWater = IMPORTER->ReadBool();
 	if (m_bBigWater) {
-		auto pBigWater = *(RCSELLER->GetTagRenderContainer()[tag::TAG_BIGWATER]["bigwater"]->GetObjectList().begin());
-		
-		
+		//color
+		m_xmf4WaterColor.x = IMPORTER->ReadFloat();
+		m_xmf4WaterColor.y = IMPORTER->ReadFloat();
+		m_xmf4WaterColor.z = IMPORTER->ReadFloat();
+		m_xmf4WaterColor.w = IMPORTER->ReadFloat();
+
+		//fresnel
+		m_fresnelMode = IMPORTER->ReadFloat();
+		m_xDrawfactor = IMPORTER->ReadFloat();
+		m_fPowFactor = IMPORTER->ReadFloat();
+
+		//wind
+		m_windDir.x = IMPORTER->ReadFloat();
+		m_windDir.y = IMPORTER->ReadFloat();
+		m_windForce = IMPORTER->ReadFloat();
+		m_BumpMapBaseUVScale = IMPORTER->ReadFloat();
+
+		m_windDir2.x = IMPORTER->ReadFloat();
+		m_windDir2.y = IMPORTER->ReadFloat();
+		m_windForce2 = IMPORTER->ReadFloat();
+		m_BumpMapDetailUVScale = IMPORTER->ReadFloat();
+		m_fWaterHeight = IMPORTER->ReadFloat();
+
+		//specular
+		m_specExp = IMPORTER->ReadFloat();
+		m_specIntensity = IMPORTER->ReadFloat();
+	}
+}
+
+void CBigWaterRenderer::SaveBigWaterInfo(){
+	EXPORTER->WriteBool(m_bBigWater); EXPORTER->WriteEnter();
+	if (m_bBigWater) {
+		//color
+		EXPORTER->WriteFloat(m_xmf4WaterColor.x); EXPORTER->WriteSpace();
+		EXPORTER->WriteFloat(m_xmf4WaterColor.y); EXPORTER->WriteSpace();
+		EXPORTER->WriteFloat(m_xmf4WaterColor.z); EXPORTER->WriteSpace();
+		EXPORTER->WriteFloat(m_xmf4WaterColor.w); EXPORTER->WriteSpace();
+		EXPORTER->WriteEnter();
+
+		//fresnel
+		EXPORTER->WriteFloat(m_fresnelMode); EXPORTER->WriteSpace();
+		EXPORTER->WriteFloat(m_xDrawfactor); EXPORTER->WriteSpace();
+		EXPORTER->WriteFloat(m_fPowFactor); EXPORTER->WriteSpace();
+		EXPORTER->WriteEnter();
+
+		//wind
+		EXPORTER->WriteFloat(m_windDir.x); EXPORTER->WriteSpace();
+		EXPORTER->WriteFloat(m_windDir.y); EXPORTER->WriteSpace();
+		EXPORTER->WriteFloat(m_windForce); EXPORTER->WriteSpace();
+		EXPORTER->WriteFloat(m_BumpMapBaseUVScale); EXPORTER->WriteSpace();
+
+		EXPORTER->WriteFloat(m_windDir2.x); EXPORTER->WriteSpace();
+		EXPORTER->WriteFloat(m_windDir2.y); EXPORTER->WriteSpace();
+		EXPORTER->WriteFloat(m_windForce2); EXPORTER->WriteSpace();
+		EXPORTER->WriteFloat(m_BumpMapDetailUVScale); EXPORTER->WriteSpace();
+		EXPORTER->WriteFloat(m_fWaterHeight); EXPORTER->WriteSpace();
+		EXPORTER->WriteEnter();
+
+		//specular
+		EXPORTER->WriteFloat(m_specExp); EXPORTER->WriteSpace();
+		EXPORTER->WriteFloat(m_specIntensity); EXPORTER->WriteSpace();
+		EXPORTER->WriteEnter();
 	}
 }
 
