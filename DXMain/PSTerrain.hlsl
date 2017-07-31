@@ -28,9 +28,8 @@ struct Material {
 };
 cbuffer gBigWaterInfo : register(b0) {
 	uint flag : packoffset(c0);
-	float height : packoffset(c1);
+	float height : packoffset(c0.y);
 }
-
 cbuffer gMaterialInfo : register(b3) {
 	float4 gMaterialColor : packoffset(c0);
 	float gSpecExp : packoffset(c1.x);
@@ -72,7 +71,7 @@ float4 RenderPickPos(float2 texCoord) {
 }
 PS_GBUFFER_OUT main(DS_OUT input) {
 	if (flag == 1) {
-		if (height > input.positionW.y) discard;
+		if (height >= input.positionW.y) discard;
 	}
 
 	PS_GBUFFER_OUT output = (PS_GBUFFER_OUT)0;

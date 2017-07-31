@@ -227,15 +227,16 @@ void CRenderer::Render( CCamera* pCamera) {
 		SetMainRenderTargetView();
 	}
 	m_pLightRenderer->Excute(pCamera, m_pShadow);
+	DEBUGER->end_Timemeasurement(L"light");
+	//LIGHT RENDER
 	for (auto texture : m_vObjectLayerResultTexture) {
 		texture->CleanShaderState();
 	}
-	DEBUGER->end_Timemeasurement(L"light");
-	//LIGHT RENDER
+	//water
+	m_pBigWaterRenderer->RenderBigWater(pCamera, m_pd3drtvLight, m_pd3ddsvReadOnlyDepthStencil, m_vObjectLayerResultTexture);
+	//water
 
-	//water
-	m_pBigWaterRenderer->RenderBigWater(pCamera, m_pd3drtvLight, m_pd3ddsvReadOnlyDepthStencil);
-	//water
+	
 
 	//post processing
 	if (m_bBloom) {
@@ -647,6 +648,7 @@ void CRenderer::SaveEffectInfo(wstring wsOutputPath, wstring wsSceneName){
 
 	//shadow
 	m_pShadow->SaveShadow(wsOutputPath, wsSceneName);
+	m_pBigWaterRenderer->SaveBigWaterInfo();
 }
 
 void CRenderer::LoadEffectInfo(wstring wsOutputPath, wstring wsSceneName){
@@ -700,6 +702,7 @@ void CRenderer::LoadEffectInfo(wstring wsOutputPath, wstring wsSceneName){
 	m_pRefrectionRenderer->SetNumStepScale(fNumStepScale);
 
 	m_pShadow->LoadShadow(wsOutputPath, wsSceneName);
+	m_pBigWaterRenderer->LoadBigWaterInfo(wsOutputPath, wsSceneName);
 }
 
 CRenderer::CRenderer() :CSingleTonBase<CRenderer>("rendereringleton") {

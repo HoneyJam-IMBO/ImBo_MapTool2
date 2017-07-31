@@ -15,7 +15,7 @@ cbuffer gMaterialInfo : register(b3) {
 
 cbuffer gBigWaterInfo : register(b0) {
 	uint flag : packoffset(c0);
-	float height : packoffset(c1);
+	float height : packoffset(c0.y);
 }
 
 //texture
@@ -44,7 +44,7 @@ struct PixelShaderInput
 PS_GBUFFER_OUT main(PixelShaderInput input)
 {
 	if (flag == 1) {
-		if (height > input.positionW.y) discard;
+		if (height >= input.positionW.y) discard;
 	}
 	PS_GBUFFER_OUT output = (PS_GBUFFER_OUT)0;
 
