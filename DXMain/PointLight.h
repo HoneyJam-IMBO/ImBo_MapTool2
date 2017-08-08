@@ -27,7 +27,11 @@ public:
 	virtual void SetBufferInfo(void** ppMappedResources, int& nInstance,  CCamera* pCamera);
 
 	//light info setter
-	void SetPointLightData(POINT_LIGHT& data) { m_PointData = data; }
+	void SetPointLightData(POINT_LIGHT& data) { 
+		m_PointData = data;
+		BoundingBox::CreateFromPoints(m_OriBoundingBox, 
+			XMVectorSet(+m_PointData.fRange, +m_PointData.fRange, +m_PointData.fRange, 0.f), XMVectorSet(-m_PointData.fRange, -m_PointData.fRange, -m_PointData.fRange, 0.f));
+	}
 	virtual void SetLength(float len);
 	virtual void SetRange(float outer, float inner = 0.0f);
 	float GetRange() { return m_PointData.fRange; }

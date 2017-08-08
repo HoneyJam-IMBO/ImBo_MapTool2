@@ -61,6 +61,10 @@ void CPointLight::SetRange(float outer, float inner){
 	m_PointData.fRange = MAX(outer, inner);
 	m_xmmtxScale = XMMatrixScalingFromVector(XMVECTOR(XMVectorSet(m_PointData.fRange, m_PointData.fRange, m_PointData.fRange, 1.0f)));
 	m_fRangeRcp = 1 / m_PointData.fRange;
+
+	BoundingBox::CreateFromPoints(m_OriBoundingBox,
+		XMVectorSet(+m_PointData.fRange, +m_PointData.fRange, +m_PointData.fRange, 0.f), 
+		XMVectorSet(-m_PointData.fRange, -m_PointData.fRange, -m_PointData.fRange, 0.f));
 }
 
 void CPointLight::SetColor(float r, float g, float b){
@@ -79,6 +83,8 @@ CPointLight* CPointLight::CreatePointLight(float fRange, XMFLOAT3 xmf3Color){
 	data.xmf3Color = xmf3Color;
 	pLight->SetPointLightData(data);
 	pLight->Begin();
+	pLight->SetRange(fRange);
+
 	return pLight;
 }
 

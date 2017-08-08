@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "Camera.h"
 #include "Object.h"
+#include "PositionInfoManager.h"
 
 class CTerrainContainer;
 class CAnimater;
@@ -26,6 +27,14 @@ struct StructLoadTextureFile {
 
 class CGameObject : public CObject {
 public:
+	//action move
+	void ActionMoveStart();
+	void ActionMoveEnd();
+	void ActionMoveProc();
+	bool m_bActionMove{ false };
+	UINT m_CurPositionInfoIndex{ 0 };
+	float m_fProgress{ 0.f };
+
 	//----------------------------object-----------------------------
 	bool Begin();
 	virtual bool End();

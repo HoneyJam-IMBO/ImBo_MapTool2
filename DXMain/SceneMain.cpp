@@ -797,16 +797,20 @@ void CSceneMain::ProcessInput(float fTimeElapsed) {
 	if (GLOBALVALUEMGR->GetToolMode() == TOOL_MODE_FREECAMERA) {
 		if (INPUTMGR->OnlyKeyDown(VK_F3_)) {
 			if (m_pPickingObject) {
-				XMVECTOR xmvScale = m_pPickingObject->GetScale();
-				xmvScale += XMVectorSet(0.1, 0.1, 0.1, 0);
-				m_pPickingObject->SetScale(xmvScale);
+				if (m_pPickingObject->GetName() != "terrain") {
+					XMVECTOR xmvScale = m_pPickingObject->GetScale();
+					xmvScale += XMVectorSet(0.1, 0.1, 0.1, 0);
+					m_pPickingObject->SetScale(xmvScale);
+				}
 			}
 		}
 		else if (INPUTMGR->OnlyKeyDown(VK_F4_)) {
 			if (m_pPickingObject) {
-				XMVECTOR xmvScale = m_pPickingObject->GetScale();
-				xmvScale -= XMVectorSet(0.1, 0.1, 0.1, 0);
-				m_pPickingObject->SetScale(xmvScale);
+				if (m_pPickingObject->GetName() != "terrain") {
+					XMVECTOR xmvScale = m_pPickingObject->GetScale();
+					xmvScale -= XMVectorSet(0.1, 0.1, 0.1, 0);
+					m_pPickingObject->SetScale(xmvScale);
+				}
 			}
 		}
 	}
