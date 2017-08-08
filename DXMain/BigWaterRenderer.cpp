@@ -277,6 +277,7 @@ void CBigWaterRenderer::RenderWater1(CCamera* pCamera) {//big water는 하나만 존�
 	//stencil제작험
 	//물 그릴 떄 stencil 마킹
 	//2. 거울을 그린다. 스텐실 버퍼만 변경 랜더 타겟에 출력하지 않음.!
+	pCamera->SetShaderState();
 
 	//water color 
 	XMFLOAT4* pColor = (XMFLOAT4*)m_pWaterColor->Map();

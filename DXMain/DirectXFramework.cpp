@@ -32,7 +32,7 @@ void CDirectXFramework::Begin(HINSTANCE hInstance, HWND hWnd)
 		// 종횡비
 		, float(GLOBALVALUEMGR->GetrcClient().right) / float(GLOBALVALUEMGR->GetrcClient().bottom)
 		// 최소 거리
-		, 10.0f
+		, 2.0f
 		// 최대 거리
 		, 3000.0f);
 
@@ -80,6 +80,7 @@ void CDirectXFramework::End() {
 	RENDERER->End();
 
 	CNaviObjectManager::End();
+	CPositionInfoManager::End();
 	//singleton End
 
 	//	//ui

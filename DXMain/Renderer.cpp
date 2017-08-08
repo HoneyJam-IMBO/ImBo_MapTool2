@@ -444,10 +444,10 @@ bool CRenderer::CreateRenderTargetView() {
 		ReleaseForwardRenderTargets();
 
 		//--------------------------------------Scene0 DSV Create-----------------------------------------//
-		d3dTexture2DDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;
-		d3dDepthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-		d3dSRVDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
-		d3dUAVDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+		d3dTexture2DDesc.Format = DXGI_FORMAT_R32G8X24_TYPELESS;
+		d3dDepthStencilViewDesc.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
+		d3dSRVDesc.Format = DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS;
+		d3dUAVDesc.Format = DXGI_FORMAT_R32G8X24_TYPELESS;
 		d3dTexture2DDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_DEPTH_STENCIL;
 		GLOBALVALUEMGR->GetDevice()->CreateTexture2D(&d3dTexture2DDesc, nullptr, &m_pd3dtxtDepthStencil);
 		GLOBALVALUEMGR->GetDevice()->CreateDepthStencilView(m_pd3dtxtDepthStencil, &d3dDepthStencilViewDesc, &m_pd3ddsvDepthStencil);

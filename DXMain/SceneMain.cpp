@@ -389,7 +389,7 @@ bool CSceneMain::Begin() {
 	TWBARMGR->AddButtonCB(barName, "FileControll", "OverWrite", FCOverWriteButtonCallback, this);
 	TWBARMGR->AddButtonCB(barName, "FileControll", "Load", FCLoadButtonCallback, this);
 
-
+	CPositionInfoManager::Begin();
 	//test
 	//TWBARMGR->AddBoolBarCB(barName, "Test", "TerrainOnOff", SetTerrainOnOffCallback, GetTerrainOnOffCallback, this);
 	//test
@@ -443,6 +443,7 @@ bool CSceneMain::End() {
 
 void CSceneMain::Animate(float fTimeElapsed) {
 
+	CPositionInfoManager::RenderAllPositionInfo();
 
 	DEBUGER->AddText(10, 350, 100, YT_Color(255, 255, 0, 255), L"mode : t - 1, s - 2, o - 3, f - 4");
 
@@ -699,32 +700,72 @@ void CSceneMain::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM 
 }
 
 void CSceneMain::ProcessInput(float fTimeElapsed) {
+	if (GLOBALVALUEMGR->GetToolMode() == TOOL_MODE_OBJECTPOSITIONING) {
+		if (GLOBALVALUEMGR->GetPositioningObject()) {
+			if (INPUTMGR->OnlyKeyDown(VK_Z)) {
+				float radian = gfXDegree * (1.f / 180.f) * XM_PI;
+				GLOBALVALUEMGR->GetPositioningObject()->Rotate(XMMatrixRotationAxis(GLOBALVALUEMGR->GetPositioningObject()->GetRight(), radian));
+			}
+			else if (INPUTMGR->OnlyKeyDown(VK_X)) {
+				float radian = gfYDegree * (1.f / 180.f) * XM_PI;
+				GLOBALVALUEMGR->GetPositioningObject()->Rotate(XMMatrixRotationAxis(GLOBALVALUEMGR->GetPositioningObject()->GetUp(), radian));
+			}
+			else if (INPUTMGR->OnlyKeyDown(VK_C)) {
+				float radian = gfZDegree * (1.f / 180.f) * XM_PI;
+				GLOBALVALUEMGR->GetPositioningObject()->Rotate(XMMatrixRotationAxis(GLOBALVALUEMGR->GetPositioningObject()->GetLook(), radian));
+			}if (INPUTMGR->OnlyKeyDown(VK_A)) {
+				float radian = gfXDegree * (1.f / 180.f) * XM_PI;
+				GLOBALVALUEMGR->GetPositioningObject()->Rotate(XMMatrixRotationAxis(GLOBALVALUEMGR->GetPositioningObject()->GetRight(), -radian));
+			}
+			else if (INPUTMGR->OnlyKeyDown(VK_S)) {
+				float radian = gfYDegree * (1.f / 180.f) * XM_PI;
+				GLOBALVALUEMGR->GetPositioningObject()->Rotate(XMMatrixRotationAxis(GLOBALVALUEMGR->GetPositioningObject()->GetUp(), -radian));
+			}
+			else if (INPUTMGR->OnlyKeyDown(VK_D)) {
+				float radian = gfZDegree * (1.f / 180.f) * XM_PI;
+				GLOBALVALUEMGR->GetPositioningObject()->Rotate(XMMatrixRotationAxis(GLOBALVALUEMGR->GetPositioningObject()->GetLook(), -radian));
+			}
+			else if (INPUTMGR->KeyDown(VK_SPACE_)) {
+				GLOBALVALUEMGR->GetPositioningObject()->SetWorldMtx(XMMatrixIdentity());
+			}
+		}
+	}
+	if (GLOBALVALUEMGR->GetToolMode() == TOOL_MODE_FREECAMERA) {
+		if (m_pPickingObject) {
+			if (m_pPickingObject->GetName() != "terrain") {
+				if (INPUTMGR->OnlyKeyDown(VK_Z)) {
+					float radian = gfXDegree * (1.f / 180.f) * XM_PI;
+					m_pPickingObject->Rotate(XMMatrixRotationAxis(m_pPickingObject->GetRight(), radian));
+				}
+				else if (INPUTMGR->OnlyKeyDown(VK_X)) {
+					float radian = gfYDegree * (1.f / 180.f) * XM_PI;
+					m_pPickingObject->Rotate(XMMatrixRotationAxis(m_pPickingObject->GetUp(), radian));
+				}
+				else if (INPUTMGR->OnlyKeyDown(VK_C)) {
+					float radian = gfZDegree * (1.f / 180.f) * XM_PI;
+					m_pPickingObject->Rotate(XMMatrixRotationAxis(m_pPickingObject->GetLook(), radian));
+				}
+				//if (INPUTMGR->OnlyKeyDown(VK_A)) {
+				//	float radian = gfXDegree * (1.f / 180.f) * XM_PI;
+				//	m_pPickingObject->Rotate(XMMatrixRotationAxis(m_pPickingObject->GetRight(), -radian));
+				//}
+				//else if (INPUTMGR->OnlyKeyDown(VK_S)) {
+				//	float radian = gfYDegree * (1.f / 180.f) * XM_PI;
+				//	m_pPickingObject->Rotate(XMMatrixRotationAxis(m_pPickingObject->GetUp(), -radian));
+				//}
+				//else if (INPUTMGR->OnlyKeyDown(VK_D)) {
+				//	float radian = gfZDegree * (1.f / 180.f) * XM_PI;
+				//	m_pPickingObject->Rotate(XMMatrixRotationAxis(m_pPickingObject->GetLook(), -radian));
+				//}
+				else if (INPUTMGR->KeyDown(VK_SPACE_)) {
+					m_pPickingObject->SetWorldMtx(XMMatrixIdentity());
+				}
+			}
+		}
 
-	if (GLOBALVALUEMGR->GetPositioningObject()){
-		if (INPUTMGR->OnlyKeyDown(VK_Z)) {
-			float radian = gfXDegree * (1.f / 180.f) * XM_PI;
-			GLOBALVALUEMGR->GetPositioningObject()->Rotate(XMMatrixRotationAxis(GLOBALVALUEMGR->GetPositioningObject()->GetRight(), radian));
-		}else if (INPUTMGR->OnlyKeyDown(VK_X)) {
-			float radian = gfYDegree * (1.f / 180.f) * XM_PI;
-			GLOBALVALUEMGR->GetPositioningObject()->Rotate(XMMatrixRotationAxis(GLOBALVALUEMGR->GetPositioningObject()->GetUp(), radian));
-		}else if (INPUTMGR->OnlyKeyDown(VK_C)) {
-			float radian = gfZDegree * (1.f / 180.f) * XM_PI;
-			GLOBALVALUEMGR->GetPositioningObject()->Rotate(XMMatrixRotationAxis(GLOBALVALUEMGR->GetPositioningObject()->GetLook(), radian));
-		}if (INPUTMGR->OnlyKeyDown(VK_A)) {
-			float radian = gfXDegree * (1.f / 180.f) * XM_PI;
-			GLOBALVALUEMGR->GetPositioningObject()->Rotate(XMMatrixRotationAxis(GLOBALVALUEMGR->GetPositioningObject()->GetRight(), -radian));
-		}
-		else if (INPUTMGR->OnlyKeyDown(VK_S)) {
-			float radian = gfYDegree * (1.f / 180.f) * XM_PI;
-			GLOBALVALUEMGR->GetPositioningObject()->Rotate(XMMatrixRotationAxis(GLOBALVALUEMGR->GetPositioningObject()->GetUp(), -radian));
-		}
-		else if (INPUTMGR->OnlyKeyDown(VK_D)) {
-			float radian = gfZDegree * (1.f / 180.f) * XM_PI;
-			GLOBALVALUEMGR->GetPositioningObject()->Rotate(XMMatrixRotationAxis(GLOBALVALUEMGR->GetPositioningObject()->GetLook(), -radian));
-		}
-		else if (INPUTMGR->KeyDown(VK_SPACE_)) {
-			GLOBALVALUEMGR->GetPositioningObject()->SetWorldMtx(XMMatrixIdentity());
-		}
+		//position data
+		CPositionInfoManager::ProcessInput(m_pCamera);
+		//position data
 	}
 	if (INPUTMGR->KeyDown(VK_P)) {
 		INPUTMGR->SetDebugMode(static_cast<bool>((INPUTMGR->GetDebugMode() + 1) % 2));

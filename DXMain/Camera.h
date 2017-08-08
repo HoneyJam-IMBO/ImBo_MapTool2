@@ -1,5 +1,6 @@
 #pragma once
 #include "DXObject.h"
+#include "PositionInfoManager.h"
 
 enum ANGLETYPE {
 	ANGLE_X,
@@ -26,6 +27,14 @@ struct stCameraBuffer {
 class CPlayer;
 class CCamera :public DXObject {
 public:
+	//action cam
+	void ActionCamStart();
+	void ActionCamEnd();
+	void ActionCamProc();
+
+	bool m_bActionCam{ false };
+	UINT m_CurPositionInfoIndex{ 0 };
+	float m_fProgress{ 0.f };
 	//----------------------------dxobject-----------------------------
 	virtual bool Begin();
 	virtual bool End();

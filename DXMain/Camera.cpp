@@ -1,6 +1,67 @@
 #include "stdafx.h"
 #include "Camera.h"
 
+void CCamera::ActionCamStart()
+{
+	//CPositionInfoManager::LoadData(name);
+	m_bActionCam = true;
+	m_CurPositionInfoIndex = 0;
+	m_fProgress = 0.f;
+}
+
+void CCamera::ActionCamEnd()
+{
+	//CPositionInfoManager::End();
+	m_bActionCam = false;
+	m_CurPositionInfoIndex = 0;
+	m_fProgress = 0.f;
+}
+
+void CCamera::ActionCamProc(){
+	if (m_bActionCam) {
+		//action cam이 true라면 PositionInfo에서 
+		int max_index = CPositionInfoManager::GetInfoCnt() - 1;
+		XMVECTOR xmvPos;
+		XMVECTOR xmvQua;
+		if (m_CurPositionInfoIndex != max_index && max_index > 0) {
+
+			XMVECTOR xmvPos1 = CPositionInfoManager::GetAllPositionInfo()[m_CurPositionInfoIndex].GetPosition();
+			XMVECTOR xmvPos2 = CPositionInfoManager::GetAllPositionInfo()[m_CurPositionInfoIndex + 1].GetPosition();
+			xmvPos = XMVectorLerp(xmvPos1, xmvPos2, m_fProgress);
+			XMVECTOR xmvQua1 = CPositionInfoManager::GetAllPositionInfo()[m_CurPositionInfoIndex].GetQuaternion();
+			XMVECTOR xmvQua2 = CPositionInfoManager::GetAllPositionInfo()[m_CurPositionInfoIndex + 1].GetQuaternion();
+			xmvQua = XMQuaternionSlerp(xmvQua1, xmvQua2, m_fProgress);
+			m_fProgress += TIMEMGR->GetTimeElapsed() * CPositionInfoManager::GetActionSpeed();
+			if (m_fProgress > 1.f) {
+				m_fProgress = 0.f;
+				m_CurPositionInfoIndex++;
+			}
+		}
+		else {
+			if (max_index > 0) {
+				xmvPos = CPositionInfoManager::GetAllPositionInfo()[m_CurPositionInfoIndex].GetPosition();
+				xmvQua = CPositionInfoManager::GetAllPositionInfo()[m_CurPositionInfoIndex].GetQuaternion();
+				ActionCamEnd();
+			}
+			else {
+				ActionCamEnd();
+				return;
+			}
+		}
+
+		//world mtx
+		XMMATRIX xmMtx = XMMatrixAffineTransformation(XMVectorSet(1, 1, 1, 1), XMQuaternionIdentity(), xmvQua, xmvPos);
+		XMFLOAT4X4 xmf4x4;
+		XMStoreFloat4x4(&xmf4x4, xmMtx);
+		XMFLOAT3 xmf3Look = XMFLOAT3(xmf4x4._31, xmf4x4._32, xmf4x4._33);
+		XMVECTOR xmvLook = XMVectorSet(xmf4x4._31, xmf4x4._32, xmf4x4._33, 1.f);
+		//XMVECTOR xmvLookAt = xmvPos + xmvLook;
+		XMStoreFloat3(&m_xmf3Pos, xmvPos);
+		XMStoreFloat3(&m_xmf3At, xmvLook);
+		//XMStoreFloat3(&m_xmf3At, xmvLookAt);
+	}
+}
+
 //DI
 bool CCamera::Begin() {
 
@@ -71,8 +132,10 @@ void CCamera::GenerateProjectionMatrix(float fFov, float fRatio, float fNear, fl
 	BoundingFrustum::CreateFromMatrix(m_OriBoundingFrustum, XMLoadFloat4x4(&m_xmf4x4Projection));
 }
 //viewmtx 갱신
-void CCamera::UpdateViewMtx() {
 
+void CCamera::UpdateViewMtx() {
+	
+	ActionCamProc();
 
 	XMStoreFloat4x4(&m_xmf4x4View,
 		XMMatrixLookAtLH(XMLoadFloat3(&m_xmf3Pos),

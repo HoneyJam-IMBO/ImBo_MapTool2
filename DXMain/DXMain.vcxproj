@@ -219,6 +219,8 @@
     <ClInclude Include="NaviObjectManager.h" />
     <ClInclude Include="NaviVertex.h" />
     <ClInclude Include="ObjectRenderer.h" />
+    <ClInclude Include="PositionInfoData.h" />
+    <ClInclude Include="PositionInfoManager.h" />
     <ClInclude Include="PostProcessingFinalPass.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -335,6 +337,8 @@
     <ClCompile Include="NaviObjectManager.cpp" />
     <ClCompile Include="NaviVertex.cpp" />
     <ClCompile Include="ObjectRenderer.cpp" />
+    <ClCompile Include="PositionInfoData.cpp" />
+    <ClCompile Include="PositionInfoManager.cpp" />
     <ClCompile Include="PostProcessingFinalPass.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />

@@ -459,6 +459,12 @@
     <Filter Include="HLSL\Water\WaterSurface">
       <UniqueIdentifier>{785e4ce6-0d2c-4315-82fe-304a3fcaa48d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\SingleTon\FileInputOutput\PositionInfoManager">
+      <UniqueIdentifier>{4fae6db4-1138-4a4c-87aa-87c6751b14d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\SingleTon\FileInputOutput\PositionInfoManager\PositionInfoData">
+      <UniqueIdentifier>{f6f718ce-7c77-44cb-96f2-fe512734832e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -803,6 +809,12 @@
     <ClInclude Include="BigWaterRenderer.h">
       <Filter>소스 파일\SingleTon\Renderer\xx. BigWaterRenderer</Filter>
     </ClInclude>
+    <ClInclude Include="PositionInfoData.h">
+      <Filter>소스 파일\SingleTon\FileInputOutput\PositionInfoManager\PositionInfoData</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionInfoManager.h">
+      <Filter>소스 파일\SingleTon\FileInputOutput\PositionInfoManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1134,6 +1146,12 @@
     </ClCompile>
     <ClCompile Include="BigWaterRenderer.cpp">
       <Filter>소스 파일\SingleTon\Renderer\xx. BigWaterRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="PositionInfoData.cpp">
+      <Filter>소스 파일\SingleTon\FileInputOutput\PositionInfoManager\PositionInfoData</Filter>
+    </ClCompile>
+    <ClCompile Include="PositionInfoManager.cpp">
+      <Filter>소스 파일\SingleTon\FileInputOutput\PositionInfoManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

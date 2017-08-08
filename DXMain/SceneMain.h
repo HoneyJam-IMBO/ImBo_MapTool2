@@ -17,6 +17,9 @@
 #include "CapsuleLight.h"
 #include "DirectionalLight.h"
 
+//position info
+#include "PositionInfoManager.h"
+
 static XMFLOAT4 xmf4DirectionalLightColor;
 
 class CSceneMain;
