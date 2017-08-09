@@ -213,6 +213,7 @@ enum shader_value_num {
 #define			UPDATER	    CUpdater::GetInstance()
 
 #include "NaviObjectManager.h"
+#include "SoundManager.h"
 
 #define USE_ANIM
 

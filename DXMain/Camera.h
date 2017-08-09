@@ -83,6 +83,7 @@ public:      // Getter
 	RECT GetClientSize() { return m_rcClient; };
 	XMVECTOR GetPosition() { return XMLoadFloat3(&m_xmf3Pos); }
 	XMVECTOR GetLook() { return XMLoadFloat3(&m_xmf3Look); }
+	XMVECTOR GetUp() { return XMLoadFloat3(&m_xmf3Up); }
 	float GetFarClip() { return m_fFarClip; }
 	float GetNearClip() { return m_fNearClip; }
 

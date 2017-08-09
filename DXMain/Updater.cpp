@@ -65,6 +65,7 @@ void CUpdater::Update(float fTimeElapsed) {
 	if (m_pTerrainContainer)m_pTerrainContainer->Update(m_pCamera);//이건 사실 할 필요가 없는것.
 	if (m_pSkyBoxContainer)m_pSkyBoxContainer->Update(m_pCamera, fTimeElapsed);
 	//-----------------------------------space------------------------------
+	CSoundManager::Update();
 }
 
 void CUpdater::PhisicsUpdate(float fTimeElapsed){

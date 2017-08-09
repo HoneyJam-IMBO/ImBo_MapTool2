@@ -14,6 +14,7 @@ void CDirectXFramework::Begin(HINSTANCE hInstance, HWND hWnd)
 	RENDERER->Begin();
 	RENDERER->SetFramework(this);
 	UPDATER->Begin();
+	CSoundManager::Begin();
 	CNaviObjectManager::Begin();
 
 	//singleton Init
@@ -79,6 +80,7 @@ void CDirectXFramework::End() {
 	UPDATER->End();
 	RENDERER->End();
 
+	CSoundManager::End();
 	CNaviObjectManager::End();
 	CPositionInfoManager::End();
 	//singleton End

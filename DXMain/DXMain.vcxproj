@@ -226,6 +226,7 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Shadow.h" />
     <ClInclude Include="SkyBoxContainer.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SpaceMesh.h" />
     <ClInclude Include="SplattingInfo.h" />
     <ClInclude Include="SplattingInfoManager.h" />
@@ -344,6 +345,7 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="SkyBoxContainer.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SpaceMesh.cpp" />
     <ClCompile Include="SplattingInfo.cpp" />
     <ClCompile Include="SplattingInfoManager.cpp" />

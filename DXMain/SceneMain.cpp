@@ -350,6 +350,10 @@ bool CSceneMain::Begin() {
 	//모든 positioning이 가능한 객체를 미리 제작해 둔다.
 	CreatePositioningObject();
 
+	CSoundManager::Add_sound("../../Assets/Sound/Electroman-adventures.mp3", "test_bgm", FMOD_LOOP_NORMAL | FMOD_2D);
+	CSoundManager::Add_3Dsound("../../Assets/Sound/bullet sound.mp3", "test_3d", FMOD_LOOP_OFF | FMOD_3D_LINEARROLLOFF);
+//	CSoundManager::Play_bgm("test_bgm");
+
 	const char* barName{ "TOOL_MODE" };
 	TWBARMGR->AddBar(barName);
 	//set param
@@ -441,7 +445,15 @@ bool CSceneMain::End() {
 	return CScene::End();
 }
 
+//test
+static float fProgress = 0.f;
 void CSceneMain::Animate(float fTimeElapsed) {
+	if (fProgress > 1) {
+		fProgress = 0.f;
+		XMFLOAT3 pPoints[] = { XMFLOAT3(256,0,256), XMFLOAT3(0,0,0), XMFLOAT3(512,0,0), XMFLOAT3(0,0,512), XMFLOAT3(512,0,512) };
+		CSoundManager::Play_3Dsound("test_3d", 5, pPoints, 1.f, 10.f, 150.f);
+	}
+	fProgress += fTimeElapsed;
 
 	CPositionInfoManager::RenderAllPositionInfo();
 

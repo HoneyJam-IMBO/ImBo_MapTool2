@@ -465,6 +465,9 @@
     <Filter Include="소스 파일\SingleTon\FileInputOutput\PositionInfoManager\PositionInfoData">
       <UniqueIdentifier>{f6f718ce-7c77-44cb-96f2-fe512734832e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\SingleTon\SoundManager">
+      <UniqueIdentifier>{f7eeae1c-be1c-40e6-9111-6de11d9cd8a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -815,6 +818,9 @@
     <ClInclude Include="PositionInfoManager.h">
       <Filter>소스 파일\SingleTon\FileInputOutput\PositionInfoManager</Filter>
     </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>소스 파일\SingleTon\SoundManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1152,6 +1158,9 @@
     </ClCompile>
     <ClCompile Include="PositionInfoManager.cpp">
       <Filter>소스 파일\SingleTon\FileInputOutput\PositionInfoManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>소스 파일\SingleTon\SoundManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
